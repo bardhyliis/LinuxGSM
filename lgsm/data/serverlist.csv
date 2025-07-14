@@ -1,4 +1,5 @@
 shortname,gameservername,gamename,os
+vr,vrserver,VRising,ubuntu-24.04
 ac,acserver,Assetto Corsa,ubuntu-24.04
 ahl,ahlserver,Action Half-Life,ubuntu-24.04
 ahl2,ahl2server,Action: Source,ubuntu-24.04
