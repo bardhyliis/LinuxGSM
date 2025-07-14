@@ -107,6 +107,7 @@ sf
 sfc,ncurses-libs.i686
 sm,telnet,expect
 sof2
+vr
 sol
 squad
 st,libxml2
