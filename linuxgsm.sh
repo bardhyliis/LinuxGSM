@@ -102,6 +102,7 @@ fn_bootstrap_fetch_module() {
 	run="run"
 	forcedl="noforce"
 	hash="nohash"
+	echo "FETCHING MODULE: ${modulefile}"
 	# Passes vars to the file download module.
 	fn_fetch_file "${remote_fileurl}" "${remote_fileurl_backup}" "${remote_fileurl_name}" "${remote_fileurl_backup_name}" "${local_filedir}" "${local_filename}" "${chmodx}" "${run}" "${forcedl}" "${hash}"
 }

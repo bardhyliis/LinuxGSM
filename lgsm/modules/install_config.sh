@@ -114,12 +114,12 @@ fn_default_config_local() {
 }
 
 # Changes some variables within the default configs.
-# SERVERNAME to LinuxGSM
+# SERVERNAME to Ray-Hosting.com ${gamename} Server
 # PASSWORD to random password
 fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
 		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
-		servername="ray-hosting.com ${gamename} Server"
+		servername="Ray-Hosting.com ${gamename} Server"
 		adminpass="admin${randomstring}"
 		echo -en "setting hostname\c"
 		fn_script_log_info "setting hostname"
@@ -232,8 +232,6 @@ fn_list_config_locations() {
 	echo -e "LinuxGSM config: ${italic}${lgsmdir}/config-lgsm/${gameservername}${default}"
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
-
-echo " ${bold}${lightyellow}Creating default configs for ${gamename}${default}, with shortname ${shortname}."
 
 if [ "${shortname}" == "sdtd" ]; then
 	fn_default_config_local
