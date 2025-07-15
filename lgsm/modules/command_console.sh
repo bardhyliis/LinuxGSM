@@ -33,7 +33,7 @@ echo ""
 fn_print_information_nl "Press ${italic}\"CTRL+b\"${default} then ${italic}\"d\"${default} to exit console."
 fn_print_warning_nl "Do ${underline}NOT${default} press CTRL+c to exit."
 echo -e ""
-echo -e "${italic}https://docs.linuxgsm.com/commands/console${default}"
+#echo -e "${italic}https://docs.linuxgsm.com/commands/console${default}"
 if ! fn_prompt_yn "Continue?" Y; then
 	exitcode=0
 	core_exit.sh
