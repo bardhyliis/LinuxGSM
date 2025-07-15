@@ -71,11 +71,11 @@ json=$(
 						{
 							"type": "image",
 							"image_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-							"alt_text": "LinuxGSM icon"
+							"alt_text": "Ray-Hosting icon"
 						},
 						{
 							"type": "plain_text",
-							"text": "Sent by LinuxGSM ${version}",
+							"text": "Sent by Ray-Hosting ${version}",
 							"emoji": true
 						}
 					]
@@ -186,11 +186,11 @@ json+=$(
 						{
 							"type": "image",
 							"image_url": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
-							"alt_text": "LinuxGSM icon"
+							"alt_text": "Ray-Hosting icon"
 						},
 						{
 							"type": "plain_text",
-							"text": "Sent by LinuxGSM ${version}",
+							"text": "Sent by Ray-Hosting ${version}",
 							"emoji": true
 						}
 					]

@@ -2209,6 +2209,34 @@ fn_info_game_vpmc() {
 	servername="${servername:-"NOT SET"}"
 }
 
+# Config Type: json
+# Parameters: true            # CLI flags can override the file
+# Comment: // or /* */        # JSON comments are allowed
+fn_info_game_vr() {
+    if [ -f "${servercfgfullpath}" ]; then
+        # ---------- JSON look‑ups ----------
+        # jq filters go in the second argument
+        fn_info_game_json "port"           ".Port"
+        fn_info_game_json "queryport"      ".QueryPort"
+        fn_info_game_json "maxplayers"     ".MaxConnectedUsers"
+        fn_info_game_json "servername"     ".Name"
+        fn_info_game_json "serverpassword" "select(.Password != null) | .Password"
+        fn_info_game_json "rconport"       "select(.Rcon != null and .Rcon.Port != null) | .Rcon.Port"
+        fn_info_game_json "adminpassword"  "select(.Rcon != null and .Rcon.Password != null) | .Rcon.Password"
+    fi
+
+    # ---------- Fallback defaults ----------
+    configip="${configip:-"0.0.0.0"}"
+    port="${port:-"0"}"
+    queryport="${queryport:-"0"}"
+    rawport="$((port + 1))"           # VRising still opens an extra Unity port
+    maxplayers="${maxplayers:-"0"}"
+    rconport="${rconport:-"0"}"
+    servername="${servername:-"NOT SET"}"
+    serverpassword="${serverpassword:-"NOT SET"}"
+    adminpassword="${adminpassword:-"NOT SET"}"
+}
+
 # Config Type: QuakeC
 # Comment: // or /* */
 # Example: set sv_hostname "SERVERNAME"

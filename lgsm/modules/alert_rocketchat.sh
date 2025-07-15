@@ -10,14 +10,14 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 json=$(
 	cat << EOF
 {
-	"alias": "LinuxGSM",
+	"alias": "Ray-Hosting",
 	"text": "*${alerttitle}*",
 	"attachments": [
 		{
 			"title": "",
 			"color": "${alertcolourhex}",
-			"author_name": "LinuxGSM Alert",
-			"author_link": "https://linuxgsm.com",
+			"author_name": "Ray-Hosting Alert",
+			"author_link": "https://ray-hosting.com",
 			"author_icon": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
 			"thumb_url": "${alerticon}",
 			"text": "",
@@ -91,14 +91,14 @@ fi
 json+=$(
 	cat << EOF
 {
-	"alias": "LinuxGSM",
+	"alias": "Ray-Hosting",
 	"text": "*${alerttitle}*",
 	"attachments": [
 		{
 			"title": "",
 			"color": "${alertcolourhex}",
-			"author_name": "LinuxGSM Alert",
-			"author_link": "https://linuxgsm.com",
+			"author_name": "Ray-Hosting Alert",
+			"author_link": "https://ray-hosting.com",
 			"author_icon": "https://raw.githubusercontent.com/${githubuser}/${githubrepo}/${githubbranch}/lgsm/data/alert_discord_logo.jpg",
 			"thumb_url": "${alerticon}",
 			"text": "",

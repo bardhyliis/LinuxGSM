@@ -71,7 +71,7 @@ fn_info_messages_password_strip() {
 # used with alertlog
 fn_info_messages_head() {
 	echo -e ""
-	echo -e "LinuxGSM Alert Summary"
+	echo -e "Ray-Hosting Alert Summary"
 	fn_messages_separator
 	echo -e ""
 	echo -e "Server name"

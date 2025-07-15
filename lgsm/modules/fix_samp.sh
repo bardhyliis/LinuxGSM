@@ -27,8 +27,8 @@ if [ -f "${servercfgfullpath}" ]; then
 	if [ "${currenthostname}" == "${defaulthostname}" ]; then
 		fixname="change default hostname"
 		fn_fix_msg_start
-		fn_script_log_info "Changing default hostname to LinuxGSM"
-		sed -i "s/hostname ${defaulthostname}/hostname LinuxGSM/g" "${servercfgfullpath}"
+		fn_script_log_info "Changing default hostname to Ray-Hosting"
+		sed -i "s/hostname ${defaulthostname}/hostname Ray-Hosting/g" "${servercfgfullpath}"
 		fn_fix_msg_end
 	fi
 fi

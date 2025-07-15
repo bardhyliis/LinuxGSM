@@ -28,11 +28,11 @@ fn_alert_log() {
 }
 
 fn_alert_test() {
-	fn_script_log_info "Sending alert: Testing LinuxGSM Alert. No action to be taken"
+	fn_script_log_info "Sending alert: Testing Ray-Hosting Alert. No action to be taken"
 	alertaction="Tested"
 	alertemoji="🚧"
 	alertsound="1"
-	alertmessage="Testing ${selfname} LinuxGSM Alert. No action to be taken."
+	alertmessage="Testing ${selfname} Ray-Hosting Alert. No action to be taken."
 	# Green
 	alertcolourhex="#cdcd00"
 	alertcolourdec="13487360"
@@ -130,12 +130,12 @@ fn_alert_check_update() {
 }
 
 fn_alert_update_linuxgsm() {
-	fn_script_log_info "Sending alert: ${selfname} has received an LinuxGSM update"
+	fn_script_log_info "Sending alert: ${selfname} has received a system update"
 	alertaction="Updated"
 	alertemoji="🎉"
 	alertsound="1"
 	alertbody="${gamename} update available"
-	alertmessage="${selfname} has received an LinuxGSM update and been restarted."
+	alertmessage="${selfname} has received an system update and been restarted."
 	# Green
 	alertcolourhex="#00cd00"
 	alertcolourdec="52480"
@@ -187,7 +187,7 @@ fn_alert_wipe() {
 
 fn_alert_info() {
 	fn_script_log_info "Sending alert: ${selfname} info"
-	alerttitle="LinuxGSM Alert - ${selfname} - Info"
+	alerttitle="Ray-Hosting Alert - ${selfname} - Info"
 	alertaction="Queried"
 	alertemoji="📄"
 	alertsound="1"

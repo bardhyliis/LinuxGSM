@@ -21,11 +21,11 @@ fn_default_config_remote() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
 	fn_messages_separator
-	echo -e "Downloading default configs from: ${italic}https://github.com/GameServerManagers/Game-Server-Configs${default}"
+	echo -e "Downloading default configs from: ${italic}https://github.com/bardhyliis/Game-Server-Configs${default}"
 	echo -e ""
 	fn_sleep_time_1
 	mkdir -p "${lgsmdir}/config-default/config-game"
-	githuburl="https://raw.githubusercontent.com/GameServerManagers/Game-Server-Configs/main"
+	githuburl="https://raw.githubusercontent.com/bardhyliis/Game-Server-Configs/main"
 	for config in "${array_configs[@]}"; do
 		# Downloads default configs from Game-Server-Configs repo to lgsm/config-default.
 		fn_fetch_file "${githuburl}/${shortname}/${config}" "${remote_fileurl_backup}" "GitHub" "Bitbucket" "${lgsmdir}/config-default/config-game" "${config}" "nochmodx" "norun" "forcedl" "nohash"
@@ -119,7 +119,7 @@ fn_default_config_local() {
 fn_set_config_vars() {
 	if [ -f "${servercfgfullpath}" ]; then
 		randomstring=$(tr -dc 'A-Za-z0-9_' < /dev/urandom 2> /dev/null | head -c 8 | xargs)
-		servername="LinuxGSM"
+		servername="ray-hosting.com ${gamename} Server"
 		adminpass="admin${randomstring}"
 		echo -en "setting hostname\c"
 		fn_script_log_info "setting hostname"
@@ -171,7 +171,7 @@ fn_set_dst_config_vars() {
 	if grep -Fq "SERVERNAME" "${clustercfgfullpath}"; then
 		echo -e "changing server name."
 		fn_script_log_info "Changing server name."
-		sed -i "s/SERVERNAME/LinuxGSM/g" "${clustercfgfullpath}"
+		sed -i "s/SERVERNAME/ray-hosting.com ${gamename} Server/g" "${clustercfgfullpath}"
 		fn_sleep_time
 		echo -e "changing shard mode."
 		fn_script_log_info "Changing shard mode."
@@ -800,6 +800,11 @@ elif [ "${shortname}" == "zmr" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "zps" ]; then
 	array_configs+=(server.cfg)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "vr" ]; then
+	array_configs+=(ServerHostSettings.json)
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations

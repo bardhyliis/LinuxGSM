@@ -73,9 +73,7 @@ fi
 
 fn_reload_startparameters
 echo -e "${lightblue}Start parameters:${default}"
-if [ "${wine}" == "on" ]; then
-    echo -e "${executable} xvfb-run wine ${executable} ${startparameters}"
-elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	echo -e "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
 	echo -e "${executable} ${startparameters} -condebug"
@@ -116,9 +114,7 @@ else
 fi
 
 # Note: do not add double quotes to ${executable} ${startparameters}.
-if [ "${wine}" == "on" ]; then
-    echo -e "${executable} xvfb-run wine ${executable} ${startparameters}"
-elif [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	eval "${executable} ${startparameters} -debug"
 elif [ "${engine}" == "quake" ]; then
 	eval "${executable} ${startparameters} -condebug"
