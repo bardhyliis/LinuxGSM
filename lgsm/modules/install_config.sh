@@ -233,6 +233,8 @@ fn_list_config_locations() {
 	echo -e "Config documentation: ${italic}https://docs.linuxgsm.com/configuration${default}"
 }
 
+echo " ${bold}${lightyellow}Creating default configs for ${gamename}${default}, with shortname ${shortname}."
+
 if [ "${shortname}" == "sdtd" ]; then
 	fn_default_config_local
 	fn_list_config_locations
