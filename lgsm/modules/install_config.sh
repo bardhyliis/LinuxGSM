@@ -16,7 +16,7 @@ fn_check_cfgdir() {
 	fi
 }
 
-# Copys default configs from Game-Server-Configs repo to server config location.
+# Copies default configs from Game-Server-Configs repo to server config location.
 fn_default_config_remote() {
 	echo -e ""
 	echo -e "${bold}${lightyellow}Downloading ${gamename} Configs${default}"
