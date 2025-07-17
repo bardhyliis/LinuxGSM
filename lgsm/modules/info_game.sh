@@ -2530,6 +2530,8 @@ elif [ "${engine}" == "unreal2" ]; then
 	fn_info_game_unreal2
 elif [ "${shortname}" == "xnt" ]; then
 	fn_info_game_xnt
+elif [ "${shortname}" == "vr" ]; then
+	fn_info_game_vr
 fi
 
 # Public IP address
