@@ -32,14 +32,14 @@ info_distro.sh
 info_game.sh
 
 {
-	echo -e "${lightblue}Distro:\t\t${default}${distroname}"
-	echo -e "${lightblue}Architecture:\t\t${default}${arch}"
-	echo -e "${lightblue}Kernel:\t\t${default}${kernel}"
-	echo -e "${lightblue}Hostname:\t\t${default}${HOSTNAME}"
-	echo -e "${lightblue}tmux:\t\t${default}${tmuxversion}"
-	echo -e "${lightblue}Avg Load:\t\t${default}${load}"
-	echo -e "${lightblue}Free Memory:\t\t${default}${physmemfree}"
-	echo -e "${lightblue}Free Disk:\t\t${default}${availspace}"
+	#echo -e "${lightblue}Distro:\t\t${default}${distroname}"
+	#echo -e "${lightblue}Architecture:\t\t${default}${arch}"
+	#echo -e "${lightblue}Kernel:\t\t${default}${kernel}"
+	#echo -e "${lightblue}Hostname:\t\t${default}${HOSTNAME}"
+	#echo -e "${lightblue}tmux:\t\t${default}${tmuxversion}"
+	#echo -e "${lightblue}Avg Load:\t\t${default}${load}"
+	#echo -e "${lightblue}Free Memory:\t\t${default}${physmemfree}"
+	#echo -e "${lightblue}Free Disk:\t\t${default}${availspace}"
 } | column -s $'\t' -t
 
 # glibc required.
