@@ -18,6 +18,27 @@ fn_start_jk2() {
 	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
+fn_enforce_playerslot() {
+    local configfile="${servercfgfullpath}"
+    local key="${playerscfgkey}"
+    local value="${players}"
+
+    if [ ! -f "$configfile" ]; then
+        echo "[LGSM] Warning: Config file not found at $configfile"
+        return 1
+    fi
+
+    if [ -z "$key" ] || [ -z "$value" ]; then
+        echo "[LGSM] Warning: playerscfgkey or players is not set"
+        return 1
+    fi
+
+    # Use sed to find the key line and replace only the numeric value (int), regardless of surrounding syntax
+    sed -i -E "s@(${key}[^\n]*?)([0-9]+)@\1${value}@g" "$configfile"
+
+    echo "[LGSM] Enforced slot limit: ${key}=${value} in ${configfile}"
+}
+
 fn_start_tmux() {
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
@@ -198,6 +219,9 @@ if [ "${updateonstart}" == "yes" ] || [ "${updateonstart}" == "1" ] || [ "${upda
 fi
 
 fn_print_dots "${servername}"
+
+fn_patch_maxplayers
+
 if [ "${shortname}" == "jk2" ]; then
 	fn_start_jk2
 else
