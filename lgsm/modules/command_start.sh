@@ -220,7 +220,7 @@ fi
 
 fn_print_dots "${servername}"
 
-fn_patch_maxplayers
+fn_enforce_playerslot
 
 if [ "${shortname}" == "jk2" ]; then
 	fn_start_jk2
