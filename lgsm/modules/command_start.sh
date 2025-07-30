@@ -18,32 +18,6 @@ fn_start_jk2() {
 	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
-fn_enforce_playerslot() {
-    local configfile="${servercfgfullpath}"
-    local key="${playerscfgkey}"
-    local value="${maxplayers}"
-
-    if [ ! -f "$configfile" ]; then
-        echo "[LinuxGSM] Warning: Config file not found at $configfile"
-        return 0
-    fi
-
-    if [ -z "$key" ] || [ -z "$value" ]; then
-        echo "[LinuxGSM] Warning: playerscfgkey or players is not set"
-        return 0
-    fi
-
-    # Use sed to locate the line containing the exact key (${key}), then
-	# match and capture everything from the key up to (but not including) the number,
-	# and replace only the numeric value following the key with the new value (${value}),
-	# while preserving all surrounding syntax (such as '=', ':', spaces, quotes, XML/JSON tags).
-	# This works regardless of formatting differences across config files,
-	# and edits the file in place using extended regex syntax.
-	sed -i -E "s@(\b${key}[^0-9]*)[0-9]+@\1${value}@" "$configfile"
-
-	printf "\n[LinuxGSM] Enforced slot limit: %s to %s in %s\n" "${key}" "${value}" "${configfile}"
-}
-
 fn_start_tmux() {
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
@@ -73,9 +47,6 @@ fn_start_tmux() {
 	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
 
 	fn_reload_startparameters
-
-	# After the parameters are reloaded, taken from game-instance.cfg, enforce playerslots.
-	fn_enforce_playerslot
 
 	# Create uid to ensure unique tmux socket name.
 	if [ ! -f "${datadir}/${selfname}.uid" ]; then

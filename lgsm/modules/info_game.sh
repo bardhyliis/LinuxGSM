@@ -294,7 +294,7 @@ fn_info_game_ark() {
 		fn_info_game_ini "serverpassword" "ServerPassword"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	rawport="$((port + 1))"
@@ -317,7 +317,7 @@ fn_info_game_arma3() {
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
@@ -344,7 +344,7 @@ fn_info_game_av() {
 			rconenabled="true"
 		fi
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 
 	rconenabled="${rconenabled:-"false"}"
@@ -370,7 +370,7 @@ fn_info_game_bo() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "serverpassword" "Password"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
@@ -407,7 +407,7 @@ fn_info_game_cmw() {
 		fn_info_game_ini "rconport" "RConPort" "${servercfgdir}/DefaultGame.ini"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	rconport="${rconport:-"0"}"
@@ -424,7 +424,7 @@ fn_info_game_dodr() {
 	if [ -f "${servercfgfullpath}" ]; then
 		fn_info_game_ini "maxplayers" "iMaxPlayers"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -457,7 +457,7 @@ fn_info_game_dst() {
 	gamemode="${gamemode:-"NOT SET"}"
 	master="${master:-"NOT SET"}"
 	masterport="${masterport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -475,7 +475,7 @@ fn_info_game_dst() {
 # Filetype: ini
 fn_info_game_hcu() {
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -508,7 +508,7 @@ fn_info_game_kf() {
 	httpport="${httpport:-"0"}"
 	httpuser="${httpuser:-"NOT SET"}"
 	lanport="${lanport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport=$((28902 + (port - 7757))) # Valve Query Port
 	servername="${servername:-"NOT SET"}"
@@ -559,7 +559,7 @@ fn_info_game_mh() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	beaconport="${beaconport:-"0"}"
@@ -581,7 +581,7 @@ fn_info_game_ps() {
 		fn_info_game_ini "rconpassword" "Password" "${servercfgdir}/Rcon.cfg"
 		fn_info_game_ini "rconport" "Port" "${servercfgdir}/Rcon.cfg"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	if [ -z "${queryport}" ]; then
 		queryport="${port:-"0"}"
@@ -607,7 +607,7 @@ fn_info_game_pvr() {
 		fn_info_game_ini "servername" "ServerName"
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	port401="$((port + 400))"
 	queryport="${port:-"0"}"
@@ -643,7 +643,7 @@ fn_info_game_pz() {
 
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -667,7 +667,7 @@ fn_info_game_st() {
 		fn_info_game_xml "serverpassword" "/SettingData/ServerPassword"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	saveinterval="${saveinterval:-"0"}"
@@ -690,7 +690,7 @@ fn_info_game_stn() {
 		fn_info_game_ini "serverpassword" "ServerPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
@@ -705,7 +705,7 @@ fn_info_game_stn() {
 fn_info_game_tf() {
 	beaconport="${beaconport:-"0"}"
 	gamemode="${gamemode:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	saveinterval="${saveinterval:-"0"}"
@@ -732,7 +732,7 @@ fn_info_game_ti() {
 		fn_info_game_ini "serverpassword" "ServerPassword"
 		fn_info_game_ini "serverpasswordenabled" "bServerPassword"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	queueenabled="${queueenabled:-"NOT SET"}"
 	queueport="${queueport:-"0"}"
 	rconenabled="${rconenabled:-"NOT SET"}"
@@ -780,7 +780,7 @@ fn_info_game_tu() {
 		fn_info_game_ini "maxplayers" "MaxPlayers"
 		fn_info_game_ini "servername" "ServerTitle"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -837,7 +837,7 @@ fn_info_game_ut3() {
 	adminpassword="${adminpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
 	httpport="${httpport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -942,7 +942,7 @@ fn_info_game_armar() {
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -964,7 +964,7 @@ fn_info_game_bf1942() {
 		fn_info_game_keyvalue_pairs_space "serverpassword" "game.serverPassword"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -986,7 +986,7 @@ fn_info_game_bfv() {
 		fn_info_game_keyvalue_pairs_space "queryport" "game.gameSpyPort"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -1007,7 +1007,7 @@ fn_info_game_bt() {
 		fn_info_game_xml "serverpassword" "/serversettings/@password"
 		fn_info_game_xml "tickrate" "/serversettings/@TickRate"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -1030,7 +1030,7 @@ fn_info_game_cd() {
 		fn_info_game_json "servername" ".game_title"
 		fn_info_game_json "steamport" ".steam_port_messages"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	rconenabled="${rconenabled:-"NOT SET"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1049,7 +1049,7 @@ fn_info_game_ck() {
 		fn_info_game_json "servername" ".worldName"
 		fn_info_game_json "maxplayers" ".maxNumberPlayers"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
 	servername="${servername:-"NOT SET"}"
@@ -1066,7 +1066,7 @@ fn_info_game_cod() {
 		fn_info_game_quakec "servername" "sv_hostname"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1084,7 +1084,7 @@ fn_info_game_coduo() {
 		fn_info_game_quakec "servername" "sv_hostname"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1102,7 +1102,7 @@ fn_info_game_cod2() {
 		fn_info_game_quakec "servername" "sv_hostname"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1120,7 +1120,7 @@ fn_info_game_cod4() {
 		fn_info_game_quakec "servername" "sv_hostname"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1138,7 +1138,7 @@ fn_info_game_codwaw() {
 		fn_info_game_quakec "servername" "sv_hostname"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1161,7 +1161,7 @@ fn_info_game_col() {
 		fn_info_game_json "steamport" ".ServerSettings.ServerSteamPort"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1181,7 +1181,7 @@ fn_info_game_cs2() {
 		fn_info_game_valve_keyvalues "serverpassword" "sv_password"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
@@ -1206,7 +1206,7 @@ fn_info_game_ct() {
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	gamemode="${gamemode:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	saveinterval="${saveinterval:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -1229,7 +1229,7 @@ fn_info_game_dayz() {
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	battleeyeport="$((port + 4))"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -1255,7 +1255,7 @@ fn_info_game_eco() {
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	httpport="${httpport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	rconport="${rconport:-"0"}"
@@ -1279,7 +1279,7 @@ fn_info_game_etl() {
 		fn_info_game_quakec "serverpassword" "g_password"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1302,7 +1302,7 @@ fn_info_game_fctr() {
 		fn_info_game_json "versioncount" ".autosave_slots"
 	fi
 	authtoken="${authtoken:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconport="${rconport:-"0"}"
@@ -1327,7 +1327,7 @@ fn_info_game_hw() {
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	# #4189 option setting can be blank
 	# defaultmap="${defaultmap:-"NOT SET"}"
 	creativemode="${creativemode:-"NOT SET"}"
@@ -1363,7 +1363,7 @@ fn_info_game_inss() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
 	defaultscenario="${defaultscenario:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: lua (Custom)
@@ -1381,7 +1381,7 @@ fn_info_game_jc2() {
 		fn_info_game_lua "serverpassword" "Password"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	queryport="${port}"
 	queryport="${queryport:-"0"}"
 	serverdescription="${serverdescription:-"NOT SET"}"
@@ -1409,7 +1409,7 @@ fn_info_game_jc3() {
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	httpport="${httpport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	serverdescription="${serverdescription:-"NOT SET"}"
@@ -1433,7 +1433,7 @@ fn_info_game_jk2() {
 		fn_info_game_quakec "serverversion" "mv_serverversion"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1461,7 +1461,7 @@ fn_info_game_mc() {
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	gamemode="${gamemode:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryenabled="${queryenabled:-"NOT SET"}"
 	if [ -z "${queryport}" ]; then
@@ -1487,7 +1487,7 @@ fn_info_game_mcb() {
 		fn_info_game_java_properties "worldname" "level-name"
 	fi
 	gamemode="${gamemode:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	portipv6="${portipv6:-"NOT SET"}"
 	queryport="${port}"
 	servername="${servername:-"NOT SET"}"
@@ -1506,7 +1506,7 @@ fn_info_game_mohaa() {
 		fn_info_game_quakec "serverpassword" "g_password"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1537,7 +1537,7 @@ fn_info_game_mta() {
 	ase="${ase:-"Disabled"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: custom
@@ -1550,7 +1550,7 @@ fn_info_game_nec() {
 		fn_info_game_lua "port" "port"
 		fn_info_game_lua "serverpassword" "password"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	servername="Necesse Port ${port}"
 	serverpassword="${serverpassword:-"NOT SET"}"
@@ -1582,7 +1582,7 @@ fn_info_game_onset() {
 		fn_info_game_json "servername" ".servername_short"
 		fn_info_game_json "serverpassword" ".password"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	httpport="$((port - 2))"
 	queryport="$((port - 1))"
@@ -1608,7 +1608,7 @@ fn_info_game_pc() {
 	apiport="${apiport:-"0"}"
 	httpenabled="${httpenabled:-"0"}"
 	httpport="${httpport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -1631,7 +1631,7 @@ fn_info_game_pc2() {
 	apiport="${apiport:-"0"}"
 	httpenabled="${httpenabled:-"0"}"
 	httpport="${httpport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -1646,7 +1646,7 @@ fn_info_game_pc2() {
 fn_info_game_prism3d() {
 	# Config
 	if [ ! -f "${servercfgfullpath}" ]; then
-		#maxplayers="${unavailable}"
+		maxplayers="${unavailable}"
 		port="${zero}"
 		queryport="${zero}"
 		servername="${unavailable}"
@@ -1659,7 +1659,7 @@ fn_info_game_prism3d() {
 		serverpassword=$(sed -nr 's/^\s*password\s*:\s*"(.*)"/\1/p' "${servercfgfullpath}")
 
 		# Not set
-		#maxplayers="${maxplayers:-"0"}"
+		maxplayers="${maxplayers:-"0"}"
 		port="${port:-"27015"}"
 		queryport="${queryport:-"27016"}"
 		servername="${servername:-"NOT SET"}"
@@ -1678,7 +1678,7 @@ fn_info_game_q2() {
 		fn_info_game_quakec "servername" "hostname"
 	fi
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1695,7 +1695,7 @@ fn_info_game_q3() {
 		fn_info_game_quakec "rconpassword" "rconpassword"
 		fn_info_game_quakec "servername" "sv_hostname"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
@@ -1714,7 +1714,7 @@ fn_info_game_q4() {
 		fn_info_game_quakec "servername" "si_name"
 		fn_info_game_quakec "serverpassword" "g_password"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	port="${port:-"0"}"
@@ -1738,7 +1738,7 @@ fn_info_game_ql() {
 		fn_info_game_quakec "statsport" "zmq_stats_port"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1758,7 +1758,7 @@ fn_info_game_qw() {
 		fn_info_game_quakec "rconpassword" "rcon_password"
 		fn_info_game_quakec "servername" "hostname"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -1790,7 +1790,7 @@ fn_info_game_ro() {
 	httpport="${httpport:-"0"}"
 	httpuser="${httpuser:-"NOT SET"}"
 	lanport="${lanport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport=$((28902 + (port - 7757))) # Valve Query Port
 	servername="${servername:-"NOT SET"}"
@@ -1813,7 +1813,7 @@ fn_info_game_rtcw() {
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -1828,7 +1828,7 @@ fn_info_game_rust() {
 	appport="${appport:-"0"}"
 	rconport="${rconport:-"0"}"
 	gamemode="${gamemode:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	rconweb="${rconweb:-"NOT SET"}"
 	tickrate="${tickrate:-"0"}"
@@ -1857,7 +1857,7 @@ fn_info_game_rw() {
 	fi
 	configip="${configip:-"0.0.0.0"}"
 	gamemode="${gamemode:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="$((port - 1))"
 	rconport="${rconport:-"0"}"
@@ -1886,7 +1886,7 @@ fn_info_game_samp() {
 		port="${port:-"7777"}"
 		queryport="${port:-"7777"}"
 		rconport="${rconport:-"7777"}"
-		#maxplayers="${maxplayers:-"12"}"
+		maxplayers="${maxplayers:-"12"}"
 	fi
 }
 
@@ -1904,7 +1904,7 @@ fn_info_game_sb() {
 		fn_info_game_json "rconport" ".rconServerPort"
 		fn_info_game_json "servername" ".serverName"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryenabled="${queryenabled:-"NOT SET"}"
 	queryport="${queryport:-"0"}"
@@ -1921,7 +1921,7 @@ fn_info_game_sbots() {
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: custom (possibly YAML)
@@ -1938,7 +1938,7 @@ fn_info_game_scpsl() {
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	servername="${servername:-"NOT SET"}"
@@ -1968,7 +1968,7 @@ fn_info_game_sdtd() {
 	httpenabled="${httpenabled:-"NOT SET"}"
 	httppassword="${httppassword:-"NOT SET"}"
 	httpport="${httpport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	port3="$((port + 2))"
 	queryport="${port:-"0"}"
@@ -2001,7 +2001,7 @@ fn_info_game_sm() {
 	adminpassword="${adminpassword:-"NOT SET"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	# telnet config
 	telnetenabled=true
 	telnetip="127.0.0.1"
@@ -2022,7 +2022,7 @@ fn_info_game_sof2() {
 	rconpassword="${rconpassword:-"NOT SET"}"
 	servername="${servername:-"NOT SET"}"
 	serverpassword="${serverpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	defaultmap="${defaultmap:-"NOT SET"}"
@@ -2042,7 +2042,7 @@ fn_info_game_sol() {
 		fn_info_game_ini "serverpassword" "Game_Password"
 	fi
 	adminpassword="${adminpassword:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	filesport="$((port + 10))"
 	queryport="${filesport}"
@@ -2067,7 +2067,7 @@ fn_info_game_source() {
 	fi
 	clientport="${clientport:-"0"}"
 	defaultmap="${defaultmap:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -2082,7 +2082,7 @@ fn_info_game_spark() {
 	httppassword="${httppassword:-"NOT SET"}"
 	httpport="${httpport:-"0"}"
 	httpuser="${httpuser:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	modserverport=${modserverport:-"0"}
 	port="${port:-"0"}"
 	queryport="$((port + 1))"
@@ -2104,7 +2104,7 @@ fn_info_game_squad() {
 		fn_info_game_keyvalue_pairs_equals "rconport" "Port" "${servercfgdir}/Rcon.cfg"
 		fn_info_game_keyvalue_pairs_equals "rconpassword" "Password" "${servercfgdir}/Rcon.cfg"
 	fi
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	rconport="${rconport:-"0"}"
@@ -2130,7 +2130,7 @@ fn_info_game_terraria() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	worldname="${worldname:-"NOT SET"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: QuakeC (custom)
@@ -2150,7 +2150,7 @@ fn_info_game_tw() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
 	port="${port:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 }
 
 # Config Type: Parameters
@@ -2187,7 +2187,7 @@ fn_info_game_vints() {
 		fn_info_game_json "serverpassword" "select(.Password != null) | .Password"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	servername="${servername:-"NOT SET"}"
@@ -2230,7 +2230,7 @@ fn_info_game_vr() {
     port="${port:-"0"}"
     queryport="${queryport:-"0"}"
     rawport="$((port + 1))"           # VRising still opens an extra Unity port
-    #maxplayers="${maxplayers:-"0"}"
+    maxplayers="${maxplayers:-"0"}"
     rconport="${rconport:-"0"}"
     servername="${servername:-"NOT SET"}"
     serverpassword="${serverpassword:-"NOT SET"}"
@@ -2251,7 +2251,7 @@ fn_info_game_wet() {
 		fn_info_game_quakec "serverpassword" "g_password"
 	fi
 	configip="${configip:-"0.0.0.0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -2270,7 +2270,7 @@ fn_info_game_wf() {
 		fn_info_game_quakec "servername" "sv_hostname"
 	fi
 	httpport="${httpport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	port="${port:-"0"}"
 	queryport="${port:-"0"}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -2287,7 +2287,7 @@ fn_info_game_xnt() {
 		fn_info_game_keyvalue_pairs_space "rconpassword" "rcon_password"
 		fn_info_game_keyvalue_pairs_space "servername" "hostname"
 	fi
-	#maxplayers="${maxplayers:-"8"}"
+	maxplayers="${maxplayers:-"8"}"
 	port="${port:-"0"}"
 	queryport="${port}"
 	rconpassword="${rconpassword:-"NOT SET"}"
@@ -2297,7 +2297,7 @@ fn_info_game_xnt() {
 fn_info_game_wmc() {
 	if [ ! -f "${servercfgfullpath}" ]; then
 		servername="${unavailable}"
-		#maxplayers="${zero}"
+		maxplayers="${zero}"
 		port="${zero}"
 		queryport="${zero}"
 		queryenabled="${unavailable}"
@@ -2317,7 +2317,7 @@ fn_info_game_wmc() {
 		# Not set
 		servername="${servername:-"NOT SET"}"
 		queryport="${queryport:-"25577"}"
-		#maxplayers="${maxplayers:-"0"}"
+		maxplayers="${maxplayers:-"0"}"
 		configip="${configip:-"0.0.0.0"}"
 	fi
 }
@@ -2336,7 +2336,7 @@ fn_info_game_wurm() {
 	loginserver="${loginserver:-"NOT SET"}"
 	rmiport="${rmiport:-"0"}"
 	rmiregport="${rmiregport:-"0"}"
-	#maxplayers="${maxplayers:-"0"}"
+	maxplayers="${maxplayers:-"0"}"
 	servername="${servername:-"NOT SET"}"
 	# serverpassword="${serverpassword:-"NOT SET"}"
 	port="${port:-"0"}"
@@ -2345,6 +2345,34 @@ fn_info_game_wurm() {
 
 unavailable="${red}UNAVAILABLE${default}"
 zero="${red}0${default}"
+
+fn_enforce_playerslot() {
+    local configfile="${servercfgfullpath}"
+    local key="${playerscfgkey}"
+    local value="${maxplayers}"
+
+    if [ ! -f "$configfile" ]; then
+        echo "[LinuxGSM] Warning: Config file not found at $configfile"
+        return 0
+    fi
+
+    if [ -z "$key" ] || [ -z "$value" ]; then
+        echo "[LinuxGSM] Warning: playerscfgkey or players is not set"
+        return 0
+    fi
+
+    # Use sed to locate the line containing the exact key (${key}), then
+	# match and capture everything from the key up to (but not including) the number,
+	# and replace only the numeric value following the key with the new value (${value}),
+	# while preserving all surrounding syntax (such as '=', ':', spaces, quotes, XML/JSON tags).
+	# This works regardless of formatting differences across config files,
+	# and edits the file in place using extended regex syntax.
+	sed -i -E "s@(\b${key}[^0-9]*)[0-9]+@\1${value}@" "$configfile"
+
+	printf "\n[LinuxGSM] Enforced slot limit: %s to %s in %s\n" "${key}" "${value}" "${configfile}"
+}
+
+fn_enforce_playerslot
 
 if [ "${shortname}" == "ac" ]; then
 	fn_info_game_ac
