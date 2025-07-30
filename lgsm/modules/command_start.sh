@@ -24,12 +24,12 @@ fn_enforce_playerslot() {
     local value="${maxplayers}"
 
     if [ ! -f "$configfile" ]; then
-        echo "[LGSM] Warning: Config file not found at $configfile"
+        echo "[LinuxGSM] Warning: Config file not found at $configfile"
         return 0
     fi
 
     if [ -z "$key" ] || [ -z "$value" ]; then
-        echo "[LGSM] Warning: playerscfgkey or players is not set"
+        echo "[LinuxGSM] Warning: playerscfgkey or players is not set"
         return 0
     fi
 
@@ -41,7 +41,7 @@ fn_enforce_playerslot() {
 	# and edits the file in place using extended regex syntax.
 	sed -i -E "s@(\b${key}[^0-9]*)[0-9]+@\1${value}@" "$configfile"
 
-    echo "[LGSM] Enforced slot limit: ${key} to ${value} in ${configfile}"
+	printf "\n[LinuxGSM] Enforced slot limit: %s to %s in %s\n" "${key}" "${value}" "${configfile}"
 }
 
 fn_start_tmux() {
@@ -73,8 +73,8 @@ fn_start_tmux() {
 	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
 
 	fn_reload_startparameters
-	
-	# After the parameters are reloaded, taken from game-instance.cfg, enforce playerslots
+
+	# After the parameters are reloaded, taken from game-instance.cfg, enforce playerslots.
 	fn_enforce_playerslot
 
 	# Create uid to ensure unique tmux socket name.
