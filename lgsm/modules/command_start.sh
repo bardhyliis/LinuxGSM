@@ -25,18 +25,23 @@ fn_enforce_playerslot() {
 
     if [ ! -f "$configfile" ]; then
         echo "[LGSM] Warning: Config file not found at $configfile"
-        return 1
+        return 0
     fi
 
     if [ -z "$key" ] || [ -z "$value" ]; then
         echo "[LGSM] Warning: playerscfgkey or players is not set"
-        return 1
+        return 0
     fi
 
-    # Use sed to find the key line and replace only the numeric value (int), regardless of surrounding syntax
-    sed -i -E "s@(${key}[^\n]*?)([0-9]+)@\1${value}@g" "$configfile"
+    # Use sed to locate the line containing the exact key (${key}), then
+	# match and capture everything from the key up to (but not including) the number,
+	# and replace only the numeric value following the key with the new value (${value}),
+	# while preserving all surrounding syntax (such as '=', ':', spaces, quotes, XML/JSON tags).
+	# This works regardless of formatting differences across config files,
+	# and edits the file in place using extended regex syntax.
+	sed -i -E "s@(\b${key}[^0-9]*)[0-9]+@\1${value}@" "$configfile"
 
-    echo "[LGSM] Enforced slot limit: ${key}=${value} in ${configfile}"
+    echo "[LGSM] Enforced slot limit: ${key} to ${value} in ${configfile}"
 }
 
 fn_start_tmux() {
