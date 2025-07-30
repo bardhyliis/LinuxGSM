@@ -21,7 +21,7 @@ fn_start_jk2() {
 fn_enforce_playerslot() {
     local configfile="${servercfgfullpath}"
     local key="${playerscfgkey}"
-    local value="${players}"
+    local value="${maxplayers}"
 
     if [ ! -f "$configfile" ]; then
         echo "[LGSM] Warning: Config file not found at $configfile"
