@@ -68,6 +68,9 @@ fn_start_tmux() {
 	date '+%s' > "${lockdir:?}/${selfname}-starting.lock"
 
 	fn_reload_startparameters
+	
+	# After the parameters are reloaded, taken from game-instance.cfg, enforce playerslots
+	fn_enforce_playerslot
 
 	# Create uid to ensure unique tmux socket name.
 	if [ ! -f "${datadir}/${selfname}.uid" ]; then
@@ -220,7 +223,6 @@ fi
 
 fn_print_dots "${servername}"
 
-fn_enforce_playerslot
 
 if [ "${shortname}" == "jk2" ]; then
 	fn_start_jk2
