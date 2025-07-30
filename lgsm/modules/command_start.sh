@@ -223,7 +223,6 @@ fi
 
 fn_print_dots "${servername}"
 
-
 if [ "${shortname}" == "jk2" ]; then
 	fn_start_jk2
 else
