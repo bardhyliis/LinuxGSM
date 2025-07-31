@@ -303,6 +303,28 @@ fn_info_game_ark() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: SessionName=SERVERNAME
+# Filetype: ini
+fn_info_game_arksa() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini "adminpassword" "ServerAdminPassword"
+		fn_info_game_ini "maxplayers" "MaxPlayers"
+		fn_info_game_ini "servername" "SessionName"
+		fn_info_game_ini "serverpassword" "ServerPassword"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	maxplayers="${maxplayers:-"0"}"
+	port="${port:-"0"}"
+	queryport="${queryport:-"0"}"
+	rawport="$((port + 1))"
+	rconport="NOT SUPPORTED"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
 # Config Type: SQF
 # Parameters: true
 # Comment: // or /* */
@@ -2376,6 +2398,8 @@ if [ "${shortname}" == "ac" ]; then
 	fn_info_game_ac
 elif [ "${shortname}" == "ark" ]; then
 	fn_info_game_ark
+elif [ "${shortname}" == "arksa" ]; then
+	fn_info_game_arksa
 elif [ "${shortname}" == "arma3" ]; then
 	fn_info_game_arma3
 elif [ "${shortname}" == "armar" ]; then
