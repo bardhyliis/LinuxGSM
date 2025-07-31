@@ -2352,12 +2352,10 @@ fn_enforce_playerslot() {
     local value="${maxplayers}"
 
     if [ ! -f "$configfile" ]; then
-        echo "[LinuxGSM] Warning: Config file not found at $configfile"
         return 0
     fi
 
     if [ -z "$key" ] || [ -z "$value" ]; then
-        echo "[LinuxGSM] Warning: playerscfgkey or players is not set"
         return 0
     fi
 
