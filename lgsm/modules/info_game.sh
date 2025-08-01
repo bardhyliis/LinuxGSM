@@ -280,6 +280,26 @@ fn_info_game_ac() {
 	serverpassword="${serverpassword:-NOT SET}"
 }
 
+# Config Type: json
+# Parameters: false
+# Comment: // or #
+# Example: "serverName": "SERVERNAME"
+# Filetype: json
+fn_info_game_acc() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_json "adminpassword" ".ADMIN_PASSWORD"
+		fn_info_game_json "httpport" ".HTTP_PORT"
+		fn_info_game_json "port" ".TCP_PORT"
+		fn_info_game_json "servername" ".NAME"
+		fn_info_game_json "serverpassword" ".PASSWORD"
+	fi
+	adminpassword="${adminpassword:-"NOT SET"}"
+	httpport="${httpport:-"0"}"
+	port="${port:-"0"}"
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -2395,6 +2415,8 @@ fn_enforce_playerslot() {
 fn_enforce_playerslot
 
 if [ "${shortname}" == "ac" ]; then
+	fn_info_game_ac
+if [ "${shortname}" == "acc" ]; then
 	fn_info_game_ac
 elif [ "${shortname}" == "ark" ]; then
 	fn_info_game_ark

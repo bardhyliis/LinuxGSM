@@ -1,4 +1,5 @@
 shortname,gameservername,gamename,os
+acc,accserver,Assetto Corsa Competizione,ubuntu-24.04
 arksa,arksaserver,Ark Survival Ascended,ubuntu-24.04
 vr,vrserver,VRising,ubuntu-24.04
 ac,acserver,Assetto Corsa,ubuntu-24.04
