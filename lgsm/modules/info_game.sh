@@ -2417,7 +2417,7 @@ fn_enforce_playerslot
 if [ "${shortname}" == "ac" ]; then
 	fn_info_game_ac
 if [ "${shortname}" == "acc" ]; then
-	fn_info_game_ac
+	fn_info_game_acc
 elif [ "${shortname}" == "ark" ]; then
 	fn_info_game_ark
 elif [ "${shortname}" == "arksa" ]; then
