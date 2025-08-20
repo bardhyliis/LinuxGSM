@@ -9,6 +9,8 @@ fn_update_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "norun" "force"
 	fn_fetch_file "${remotebuildurl}.sha1" "" "" "" "${tmpdir}" "${remotebuildfilename}.sha1" "norun" "force"
 
+	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/neoforge_installer.jar"
+
 	# Verify sha1 checksum
 	expectedhash=$(cat "${tmpdir}/${remotebuildfilename}.sha1" | awk '{print $1}')
 	actualhash=$(sha1sum "${tmpdir}/${remotebuildfilename}" | awk '{print $1}')
@@ -19,7 +21,7 @@ fn_update_dl() {
 	fi
 
 	# Run installer to extract server to ${serverfiles}
-	java -jar "${tmpdir}/${remotebuildfilename}" --installDir="${serverfiles}"
+	java -jar "${serverfiles}/neoforge_installer.jar"
 
 	# Dynamically set executable based on installed version
 	installed_version=$(ls -1 "${serverfiles}/libraries/net/neoforged/neoforge/" | sort -V | tail -n1)
