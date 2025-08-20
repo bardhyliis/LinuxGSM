@@ -670,11 +670,6 @@ update_ts3.sh() {
 	fn_fetch_module
 }
 
-update_mc.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
 update_fm.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -685,12 +680,52 @@ update_rm.sh() {
 	fn_fetch_module
 }
 
+update_mc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_mcb.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }
 
+update_fabric.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_mohist.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_neoforge.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_purpur.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_quilt.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_spigot.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 update_pmc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_tmodloader.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

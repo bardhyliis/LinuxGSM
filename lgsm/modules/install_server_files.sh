@@ -271,7 +271,7 @@ elif [ "${shortname}" == "fabric" ]; then
 elif [ "${shortname}" == "mohist" ]; then
 	update_mohist.sh
 elif [ "${shortname}" == "neoforge" ]; then
-		update_neoforge.sh
+	update_neoforge.sh
 elif [ "${shortname}" == "purpur" ]; then
 	update_purpur.sh
 elif [ "${shortname}" == "spigot" ]; then
