@@ -13,10 +13,10 @@ fn_update_dl() {
 	java -jar "${serverfiles}/neoforge_installer.jar" --installServer "${serverfiles}"
 
 	# Replace @user_jvm_args.txt with -Xmx${javaram}M
-	sed -i "s|@user_jvm_args.txt|-Xmx\${javaram}M|" "${serverfiles}/run.sh"
+	sed -i 's|@user_jvm_args.txt|-Xmx"${1}"M|' "${serverfiles}/run.sh"
 
-	# Insert ${startparameters} before "$@"
-	sed -i "s|\"\$@\"|${startparameters} \"\$@\"|" "${serverfiles}/run.sh"
+	sed -i -e '1s|^#!/usr/bin/env sh|#!/usr/bin/env bash|' \
+       -e 's|\$@|${@:2}|g' "${serverfiles}/run.sh"
 
 	fn_clear_tmp
 }
