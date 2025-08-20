@@ -1,4 +1,6 @@
 shortname,gameservername,gamename,os
+rm,rmserver,RedM,ubuntu-24.04
+fm,fmserver,FiveM,ubuntu-24.04
 acc,accserver,Assetto Corsa Competizione,ubuntu-24.04
 arksa,arksaserver,Ark Survival Ascended,ubuntu-24.04
 vr,vrserver,VRising,ubuntu-24.04
@@ -84,6 +86,13 @@ opfor,opforserver,Opposing Force,ubuntu-24.04
 pc,pcserver,Project Cars,ubuntu-24.04
 pc2,pc2server,Project Cars 2,ubuntu-24.04
 pmc,pmcserver,PaperMC,ubuntu-24.04
+fabric,fabricserver,Fabric,ubuntu-24.04
+forge,forgeserver,Forge,ubuntu-24.04
+mohist,mohistserver,Mohist,ubuntu-24.04
+neoforge,neoforgeserver,Neoforge,ubuntu-24.04
+purpur,purpurserver,Purpur,ubuntu-24.04
+quilt,quiltserver,Quilt,ubuntu-24.04
+spigot,spigotserver,Spigot,ubuntu-24.04
 pvkii,pvkiiserver,Pirates Vikings & Knights II,ubuntu-24.04
 pvr,pvrserver,Pavlov VR,ubuntu-24.04
 pw,pwserver,Palworld,ubuntu-24.04
@@ -115,6 +124,7 @@ st,stserver,Stationeers,ubuntu-24.04
 stn,stnserver,Survive the Nights,ubuntu-24.04
 sven,svenserver,Sven Co-op,ubuntu-20.04
 terraria,terrariaserver,Terraria,ubuntu-24.04
+tmodloader,tmodloaderserver,TModLoader,ubuntu-24.04
 tf,tfserver,The Front,ubuntu-24.04
 tf2,tf2server,Team Fortress 2,ubuntu-24.04
 tfc,tfcserver,Team Fortress Classic,ubuntu-24.04

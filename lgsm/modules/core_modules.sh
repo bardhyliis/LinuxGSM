@@ -351,6 +351,11 @@ fix_ark.sh() {
 	fn_fetch_module
 }
 
+fix_arksa.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 fix_av.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -666,6 +671,16 @@ update_ts3.sh() {
 }
 
 update_mc.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_fm.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
+update_rm.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

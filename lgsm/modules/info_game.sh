@@ -419,6 +419,63 @@ fn_info_game_bo() {
 	serverpassword="${serverpassword:-"NOT SET"}"
 }
 
+# Config Type: cfx cfg
+# Parameters: true
+# Comment: #
+# Example: sv_hostname "My FiveM Server"
+# Filetype: cfg
+fn_info_game_cfx() {
+    if [ -f "${servercfgfullpath}" ]; then
+        fn_info_game_keyvalue "maxplayers" "sv_maxclients"
+        fn_info_game_keyvalue "port" "endpoint_add_tcp" ".*:(.*)"
+        fn_info_game_keyvalue "servername" "sv_hostname"
+        fn_info_game_keyvalue "serverpassword" "sv_password"
+    fi
+    maxplayers="${maxplayers:-"0"}"
+    port="${port:-"30120"}"
+    queryport="${queryport:-"${port}"}"
+    servername="${servername:-"NOT SET"}"
+    serverpassword="${serverpassword:-"NOT SET"}"
+}
+
+# Config Type: cfg
+# Parameters: true
+# Comment: #
+# Example: set sv_hostname "My Server"
+# Filetype: cfg
+fn_info_game_fivem() {
+	if [ -f "${servercfgfullpath}" ]; then
+		# Common FiveM cvars
+		fn_info_game_keyvalue "sv_password" "PASSWORD"
+		fn_info_game_keyvalue "sv_hostname" "NAME"
+		fn_info_game_keyvalue "endpoint_add_tcp" "PORT"
+		fn_info_game_keyvalue "endpoint_add_udp" "QUERYPORT"
+	fi
+	servername="${servername:-NOT SET}"
+	serverpassword="${serverpassword:-NOT SET}"
+	port="${port:-0}"
+	queryport="${queryport:-0}"
+}
+
+# Config Type: cfg
+# Parameters: true
+# Comment: #
+# Example: set sv_hostname "My Server"
+# Filetype: cfg
+fn_info_game_redm() {
+	if [ -f "${servercfgfullpath}" ]; then
+		# Common RedM cvars (same as FiveM)
+		fn_info_game_keyvalue "sv_password" "PASSWORD"
+		fn_info_game_keyvalue "sv_hostname" "NAME"
+		fn_info_game_keyvalue "endpoint_add_tcp" "PORT"
+		fn_info_game_keyvalue "endpoint_add_udp" "QUERYPORT"
+	fi
+	servername="${servername:-NOT SET}"
+	serverpassword="${serverpassword:-NOT SET}"
+	port="${port:-0}"
+	queryport="${queryport:-0}"
+}
+
 # Config Type: ini
 # Parameters: true
 # Comment: ; or #
@@ -2468,6 +2525,8 @@ elif [ "${shortname}" == "eco" ]; then
 	fn_info_game_eco
 elif [ "${shortname}" == "etl" ]; then
 	fn_info_game_etl
+elif [[ "${shortname}" =~ ^(fm|rm)$ ]]; then
+	fn_info_game_cfx
 elif [ "${shortname}" == "fctr" ]; then
 	fn_info_game_fctr
 elif [ "${shortname}" == "hw" ]; then
@@ -2486,7 +2545,7 @@ elif [ "${shortname}" == "kf" ]; then
 	fn_info_game_kf
 elif [ "${shortname}" == "kf2" ]; then
 	fn_info_game_kf2
-elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc"  ] || [ "${shortname}" == "fabric"  ] || [ "${shortname}" == "mohist"  ] || [ "${shortname}" == "neoforge"  ] || [ "${shortname}" == "purpur"  ] || [ "${shortname}" == "quilt"  ] || [ "${shortname}" == "spigot"  ]; then
 	fn_info_game_mc
 elif [ "${shortname}" == "mcb" ]; then
 	fn_info_game_mcb
@@ -2558,7 +2617,7 @@ elif [ "${shortname}" == "st" ]; then
 	fn_info_game_st
 elif [ "${shortname}" == "stn" ]; then
 	fn_info_game_stn
-elif [ "${shortname}" == "terraria" ]; then
+elif [ "${shortname}" == "terraria" ] || [ "${shortname}" == "tmodloader" ]; then
 	fn_info_game_terraria
 elif [ "${shortname}" == "tf" ]; then
 	fn_info_game_tf

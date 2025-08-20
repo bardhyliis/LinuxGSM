@@ -6,6 +6,8 @@ ahl2
 ark
 arksa
 acc
+fm
+rm
 arma3
 armar,libcurl4t64
 ats
@@ -85,6 +87,13 @@ opfor
 pc
 pc2
 pmc,openjdk-21-jre
+fabric,openjdk-21-jre
+forge,openjdk-21-jre
+mohist,openjdk-21-jre
+neoforge,openjdk-21-jre
+purpu,openjdk-21-jre
+quilt,openjdk-21-jre
+spigot,openjdk-21-jre
 ps
 pvkii
 pvr,libc++1
@@ -116,6 +125,7 @@ st,libxml2-utils
 stn
 sven,libssl1.1:i386,zlib1g:i386
 terraria
+tmodloader,dotnet-runtime-7.0
 tf
 tf2,libcurl4-gnutls-dev:i386
 tfc

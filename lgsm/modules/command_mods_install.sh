@@ -94,6 +94,23 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 	fi
 fi
 
+# Ask for version if required
+# if [ "${modversionselect}" == "versionselect" ]; then
+#     while true; do
+#         echo -en "Enter desired version (e.g. 20.4.123): "
+#         read -r userversion
+#         # Trim whitespace
+#         userversion=$(echo "$userversion" | xargs)
+#         if [ -n "$userversion" ]; then
+#             break
+#         else
+#             echo "Version cannot be empty. Please enter a valid version."
+#         fi
+#     done
+#     modurl="${modurl//\[VERSION\]/$userversion}"
+#     modfilename="${modfilename//\[VERSION\]/$userversion}"
+# fi
+
 ## Installation.
 # If amxmodx check if metamod exists first
 if [ "${modcommand}" == "amxmodx" ]; then
@@ -115,9 +132,71 @@ fn_mod_install_files
 fn_mod_lowercase
 fn_mod_create_filelist
 fn_mod_copy_destination
+
+# --- NEW: handle installer mods ---
+# if [[ "${modinstaller}" != "0" ]]; then
+#     installer_jar_path="${modtmpdir}/${modfile}" # path to downloaded installer
+#     if [ -f "${installer_jar_path}" ]; then
+#         fn_print_info_nl "Running installer for ${modprettyname}..."
+#         fn_script_log_info "Running installer jar: ${installer_jar_path}"
+
+#         # Run the installer - adjust arguments depending on mod type
+#         java -jar "${installer_jar_path}" --installServer "${serverfiles}"
+        
+#         if [ $? -ne 0 ]; then
+#             fn_print_fail_nl "Installer for ${modprettyname} failed."
+#             fn_script_log_error "Installer failed: ${installer_jar_path}"
+#             core_exit.sh
+#         fi
+#     else
+#         fn_print_fail_nl "Installer JAR not found for ${modprettyname}"
+#         core_exit.sh
+#     fi
+# fi
+# --- END installer handling ---
+
 fn_mod_add_list
 fn_mod_tidy_files_list
 fn_mods_clear_tmp_dir
+
+# If mod requires executable update
+# if [ "${modhandlemode}" != "0" ]; then
+#     # Adjust executable/preexecutable if mod requires it
+#     if [ "${modexecmode}" == "neoforge" ]; then
+#         echo "Configuring executable for NeoForge..."
+
+#         # Determine NeoForge version (use selected version or default)
+#         neoforge_version="$userversion"
+
+#         neoforge_dir="${serverfiles}/libraries/net/neoforged/neoforge/${neoforge_version}"
+
+#         # Store NeoForge version in server config
+#         if grep -q "^neoforge_version=" "${configdir}/${selfname}.cfg"; then
+#             sed -i "s|^neoforge_version=.*|neoforge_version=\"${neoforge_version}\"|" "${configdir}/${selfname}.cfg"
+#         else
+#             echo "neoforge_version=\"${neoforge_version}\"" >> "${configdir}/${selfname}.cfg"
+#         fi
+
+#         # Handle preexecutable dynamically using javaram variable
+#         preexec="java -Xmx\${javaram}M -jar"
+#         if grep -q "^preexecutable=" "${configdir}/${selfname}.cfg"; then
+#             sed -i "s|^preexecutable=.*|preexecutable=\"${preexec}\"|" "${configdir}/${selfname}.cfg"
+#         else
+#             echo "preexecutable=\"${preexec}\"" >> "${configdir}/${selfname}.cfg"
+#         fi
+
+#         # Handle executable
+#         exec_path="${neoforge_dir}/neoforge-${neoforge_version}-server.jar @${neoforge_dir}/unix_args.txt"
+#         if grep -q "^executable=" "${configdir}/${selfname}.cfg"; then
+#             sed -i "s|^executable=.*|executable=\"${exec_path}\"|" "${configdir}/${selfname}.cfg"
+#         else
+#             echo "executable=\"${exec_path}\"" >> "${configdir}/${selfname}.cfg"
+#         fi
+
+#         echo "NeoForge configuration complete."
+#     fi
+# fi
+
 
 # Create/modify existing liblist.gam file for Metamod
 if [ "${modcommand}" == "metamod" ]; then

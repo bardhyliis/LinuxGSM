@@ -246,6 +246,7 @@ fn_mods_define() {
 	modexcludegames="${mods_global_array[index + 11]}"
 	modsite="${mods_global_array[index + 12]}"
 	moddescription="${mods_global_array[index + 13]}"
+	modhandlemode="${mods_global_array[index + 14]:-0}"
 }
 
 # Builds list of installed mods.
