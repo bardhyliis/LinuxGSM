@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # Check if executable exists
 execname=$(basename "${executable}")
-if [ "${selfname}" != "neoforge" ] && [ ! -f "${executabledir}/${execname}" ]; then
+if [ ! -f "${executabledir}/${execname}" ]; then
 	fn_print_fail_nl "executable was not found"
 	echo -e "* ${executabledir}/${execname}"
 	if [ -d "${lgsmlogdir}" ]; then

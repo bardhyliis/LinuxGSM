@@ -12,7 +12,11 @@ fn_update_dl() {
 	# Run installer to extract serverfiles to ${serverfiles}
 	java -jar "${serverfiles}/neoforge_installer.jar" --installServer "${serverfiles}"
 
-	sed -i 's|^exec java @user_jvm_args.txt @libraries/net/neoforged/neoforge/${resolved_neoforgeversion}/unix_args.txt "\$@"|exec java -Xmx${javaram}M @libraries/net/neoforged/neoforge/${resolved_neoforgeversion}/unix_args.txt ${startparameters} "$@"|' "${serverfiles}/run.sh"
+	# Replace @user_jvm_args.txt with -Xmx${javaram}M
+	sed -i "s|@user_jvm_args.txt|-Xmx\${javaram}M|" "${serverfiles}/run.sh"
+
+	# Insert ${startparameters} before "$@"
+	sed -i "s|\"\$@\"|${startparameters} \"\$@\"|" "${serverfiles}/run.sh"
 
 	fn_clear_tmp
 }
