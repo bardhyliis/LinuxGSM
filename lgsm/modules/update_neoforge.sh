@@ -7,27 +7,10 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 fn_update_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "norun" "force"
-	fn_fetch_file "${remotebuildurl}.sha1" "" "" "" "${tmpdir}" "${remotebuildfilename}.sha1" "norun" "force"
-
 	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/neoforge_installer.jar"
 
-	# Verify sha1 checksum
-	expectedhash=$(cat "${tmpdir}/${remotebuildfilename}.sha1" | awk '{print $1}')
-	actualhash=$(sha1sum "${tmpdir}/${remotebuildfilename}" | awk '{print $1}')
-	if [ "${expectedhash}" != "${actualhash}" ]; then
-		fn_print_fail "Hash mismatch for ${remotebuildfilename}"
-		fn_script_log_fail "Expected: ${expectedhash}, got: ${actualhash}"
-		core_exit.sh
-	fi
-
-	# Run installer to extract server to ${serverfiles}
-	java -jar "${serverfiles}/neoforge_installer.jar"
-
-	# Dynamically set executable based on installed version
-	installed_version=$(ls -1 "${serverfiles}/libraries/net/neoforged/neoforge/" | sort -V | tail -n1)
-	executable="${serverfiles}/libraries/net/neoforged/neoforge/${installed_version}/neoforge-${installed_version}-server.jar @${serverfiles}/libraries/net/neoforged/neoforge/${installed_version}/unix_args.txt"
-
-	echo "${installed_version}" > "${serverfiles}/build.txt"
+	# Run installer to extract serverfiles to ${serverfiles}
+	java -jar "${serverfiles}/neoforge_installer.jar" --installServer "${serverfiles}"
 
 	fn_clear_tmp
 }

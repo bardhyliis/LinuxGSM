@@ -9,7 +9,7 @@ moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 if [ "${shortname}" == "ts3" ]; then
 	eulaurl="https://www.teamspeak.com/en/privacy-and-terms"
-elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "neoforge" ] || [ "${shortname}" == "quilt" ] || [ "${shortname}" == "fabric" ] || [ "${shortname}" == "purpur" ] || [ "${shortname}" == "spigot" ]; then
 	eulaurl="https://account.mojang.com/documents/minecraft_eula"
 elif [ "${shortname}" == "ut" ]; then
 	eulaurl="https://www.epicgames.com/unrealtournament/unreal-tournament-pre-alpha-test-development-build-eula"

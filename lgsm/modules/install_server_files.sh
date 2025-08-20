@@ -241,7 +241,7 @@ fn_install_server_files() {
 	fn_clear_tmp
 }
 
-if [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "ut" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "neoforge" ] || [ "${shortname}" == "quilt" ] || [ "${shortname}" == "fabric" ] || [ "${shortname}" == "purpur" ] || [ "${shortname}" == "spigot" ]; then
 	install_eula.sh
 fi
 
