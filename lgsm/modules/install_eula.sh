@@ -38,7 +38,7 @@ fi
 
 if [ "${shortname}" == "ts3" ]; then
 	touch "${executabledir}/.ts3server_license_accepted"
-elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ]; then
+elif [ "${shortname}" == "mc" ] || [ "${shortname}" == "pmc" ] || [ "${shortname}" == "neoforge" ] || [ "${shortname}" == "quilt" ] || [ "${shortname}" == "fabric" ] || [ "${shortname}" == "purpur" ] || [ "${shortname}" == "spigot" ]; then
 	touch "${serverfiles}/eula.txt"
 	echo -e "eula=true" > "${serverfiles}/eula.txt"
 elif [ "${shortname}" == "ut" ]; then

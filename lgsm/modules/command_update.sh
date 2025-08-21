@@ -35,6 +35,8 @@ elif [ "${shortname}" == "purpur" ]; then
 	update_purpur.sh
 elif [ "${shortname}" == "spigot" ]; then
 	update_spigot.sh
+elif [ "${shortname}" == "tmodloader" ]; then
+	update_tmodloader.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_mcb.sh
 elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then
