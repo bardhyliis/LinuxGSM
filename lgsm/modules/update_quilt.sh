@@ -1,6 +1,8 @@
 #!/bin/bash
 # LinuxGSM update_quilt.sh module
-# Author: Bardhyl + ChatGPT
+# Author: Bardhyl Sllamniku
+# Contributors: https://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Handles updating of Quilt servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -10,7 +12,7 @@ fn_update_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "norun" "force"
 
 	# Run installer
-	java -jar "${tmpdir}/${remotebuildfilename}" install server "${mcversion}" --download-server --installDir "${serverfiles}"
+	java -jar "${tmpdir}/${remotebuildfilename}" install server "${mcversion}" --install-dir="${serverfiles}" --download-server
 
 	# Copy quilt-server-launch.jar reference (for LGSM executable)
 	if [ ! -f "${serverfiles}/quilt-server-launch.jar" ]; then
@@ -25,19 +27,17 @@ fn_update_dl() {
 }
 
 fn_update_localbuild() {
+	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
 
-	# Detect version dynamically from build.txt or folders
-	if [ -f "${serverfiles}/build.txt" ]; then
-		localbuild=$(head -n 1 "${serverfiles}/build.txt")
-	else
-		# Try to detect from installer folder
-		localbuild=$(ls -1 "${serverfiles}/libraries/net/quiltmc/quilt-installer/" 2>/dev/null | tail -n 1)
+	if [ -f "${executabledir}/server.jar" ]; then
+		localbuild=$(unzip -p "${executabledir}/server.jar" version.json | jq -r '.id')
 	fi
 
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
 		localbuild="0"
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"

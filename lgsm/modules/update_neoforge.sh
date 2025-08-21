@@ -1,6 +1,8 @@
 #!/bin/bash
-# LinuxGSM update_nf.sh module
-# Author: Bardhyl + ChatGPT
+# LinuxGSM update_neoforge.sh module
+# Author: Bardhyl Sllamniku
+# Contributors: https://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
 # Description: Handles updating of NeoForge servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
@@ -28,7 +30,7 @@ fn_update_localbuild() {
 	if [ -f "${executabledir}/run.sh" ]; then
 		localbuild=$(grep -oP 'neoforged/neoforge/\K[0-9]+\.[0-9]+\.[0-9]+' "${executabledir}/run.sh" | head -n 1)
 	fi
-	
+
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
