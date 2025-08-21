@@ -22,6 +22,20 @@ elif [ "${shortname}" == "fm" ]; then
 	update_fm.sh
 elif [ "${shortname}" == "rm" ]; then
 	update_rm.sh
+elif [ "${shortname}" == "quilt" ]; then
+	update_quilt.sh
+elif [ "${shortname}" == "fabric" ]; then
+	update_fabric.sh
+elif [ "${shortname}" == "mohist" ]; then
+	update_mohist.sh
+elif [ "${shortname}" == "neoforge" ]; then
+	update_neoforge.sh
+elif [ "${shortname}" == "purpur" ]; then
+	update_purpur.sh
+elif [ "${shortname}" == "spigot" ]; then
+	update_spigot.sh
+elif [ "${shortname}" == "tmodloader" ]; then
+	update_tmodloader.sh
 elif [ "${shortname}" == "mcb" ]; then
 	update_mcb.sh
 elif [ "${shortname}" == "pmc" ] || [ "${shortname}" == "vpmc" ] || [ "${shortname}" == "wmc" ]; then

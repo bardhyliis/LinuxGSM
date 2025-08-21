@@ -22,11 +22,17 @@ fn_update_dl() {
 }
 
 fn_update_localbuild() {
+	# Gets local build info.
 	fn_print_dots "Checking local build: ${remotelocation}"
-	localbuild=$(head -n 1 "${serverfiles}/build.txt" 2> /dev/null)
+	# Uses executable to get local build.
+	if [ -f "${executabledir}/run.sh" ]; then
+		localbuild=$(grep -oP 'neoforged/neoforge/\K[0-9]+\.[0-9]+\.[0-9]+' "${executabledir}/run.sh" | head -n 1)
+	fi
+	
 	if [ -z "${localbuild}" ]; then
 		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
 		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
 		localbuild="0"
 	else
 		fn_print_ok "Checking local build: ${remotelocation}"
