@@ -1,6 +1,6 @@
 #!/bin/bash
 # LinuxGSM update_spigot.sh module
-# Author: Adapted from Daniel Gibbs
+# Author: Adapted from Bardhyl Sllamniku
 # Contributors: https://linuxgsm.com/contrib
 # Website: https://linuxgsm.com
 # Description: Handles updating of Spigot servers using BuildTools.
@@ -18,32 +18,33 @@ fn_update_dl() {
 
     fn_print_dots "Building Spigot: ${remotebuildversion}"
     cd "${tmpdir}" || exit
-    java -jar "${BUILDTOOLS_JAR}" --rev "${remotebuildversion}"
-    if [ ! -f "spigot-${remotebuildversion}.jar" ]; then
-        fn_print_fail "BuildTools failed to generate spigot-${remotebuildversion}.jar"
+
+    java -jar "${BUILDTOOLS_JAR}" --rev "${remotebuildversion}" --output-dir "${serverfiles}" --final-name "spigot.jar"
+
+    if [ ! -f "${serverfiles}/spigot.jar" ]; then
+        fn_print_fail "BuildTools failed to generate spigot.jar"
         core_exit.sh
     fi
 
-    cp -f "spigot-${remotebuildversion}.jar" "${serverfiles}/spigot.jar"
     fn_clear_tmp
 }
 
 fn_update_localbuild() {
-    # Gets local build info from server jar
-    fn_print_dots "Checking local build: ${remotelocation}"
-    if [ -f "${serverfiles}/spigot.jar" ]; then
-        localbuild=$(java -jar "${serverfiles}/spigot.jar" --version 2>&1 | grep -oP 'This server is running \K.*')
-    fi
+    # Gets local build info.
+	fn_print_dots "Checking local build: ${remotelocation}"
+	if [ -f "${executabledir}/spigot.jar" ]; then
+		localbuild=$(unzip -p "${executabledir}/spigot.jar" version.json | jq -r '.id')
+	fi
 
-    if [ -z "${localbuild}" ]; then
-        fn_print_error "Checking local build: ${remotelocation}: missing local build info"
-        fn_script_log_error "Missing local build info"
-        fn_script_log_error "Set localbuild to 0"
-        localbuild="0"
-    else
-        fn_print_ok "Checking local build: ${remotelocation}"
-        fn_script_log_pass "Checking local build"
-    fi
+	if [ -z "${localbuild}" ]; then
+		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+		fn_script_log_error "Missing local build info"
+		fn_script_log_error "Set localbuild to 0"
+		localbuild="0"
+	else
+		fn_print_ok "Checking local build: ${remotelocation}"
+		fn_script_log_pass "Checking local build"
+	fi
 }
 
 fn_update_remotebuild() {
