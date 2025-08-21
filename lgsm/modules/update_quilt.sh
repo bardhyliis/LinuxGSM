@@ -12,7 +12,7 @@ fn_update_dl() {
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "norun" "force"
 
 	# Run installer
-	java -jar "${tmpdir}/${remotebuildfilename}" install server "${mcversion}" --install-dir="${serverfiles}" --download-server
+	java -jar "${tmpdir}/${remotebuildfilename}" install server "${remotebuildversion}" --install-dir="${serverfiles}" --download-server
 
 	# Copy quilt-server-launch.jar reference (for LGSM executable)
 	if [ ! -f "${serverfiles}/quilt-server-launch.jar" ]; then
@@ -55,7 +55,9 @@ fn_update_remotebuild() {
 	# Determine remote version: use MC_VERSION if set, otherwise "latest"
 	if [ "${mcversion}" == "latest" ]; then
 		remotebuildversion=$(curl -s https://meta.quiltmc.org/v3/versions/game \
-        | jq -r '[.[] | select(.stable == true)] | .[-1].version')
+			| jq -r '[.[] | select(.stable == true)]
+					| sort_by(.version | split(".") | map(tonumber? // 0))
+					| last.version')
 	else
 		remotebuildversion="${mcversion}"
 	fi
