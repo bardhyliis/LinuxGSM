@@ -43,7 +43,7 @@ fn_update_remotebuild() {
 		remotebuildversion=$(echo "${gamejson}" | jq -r '[.[] | select(.stable==true)][0].version')
 	else
 		remotebuildversion="${mcversion}"
-	fi
+	fi 
 
 	# Get latest installer and loader for that mcversion
 	apiurl="https://meta.fabricmc.net/v2/versions"
