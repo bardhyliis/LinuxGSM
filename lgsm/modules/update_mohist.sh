@@ -8,7 +8,6 @@
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 remotelocation="mohistmc.com"
-MOHIST_API_MANIFEST="https://api.mohistmc.com/project/mohist/versions"
 
 fn_update_dl() {
     # Download Mohist server jar
@@ -42,11 +41,26 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-    # Fetch Mohist manifest and determine latest or specific version
-    manifest=$(curl -s "${MOHIST_API_MANIFEST}")
+    manifest=$(curl -s "https://api.mohistmc.com/project/mohist/versions")
+
     if [ "${mcversion}" == "latest" ]; then
-        # Extract all version names, sort semantically, pick the last one
-        remotebuildversion=$(echo "${manifest}" | jq -r '.[].name' | sort -V | tail -n1)
+        # Sort all available versions semantically (highest first)
+        for ver in $(echo "${manifest}" | jq -r '.[].name' | sort -Vr); do
+            # Check if this version has builds, if not skip to the previous latest.
+            build_manifest=$(curl -s "https://api.mohistmc.com/project/mohist/${ver}/builds")
+            build_count=$(echo "${build_manifest}" | jq '. | length')
+
+            if [ "${build_count}" -gt 0 ]; then
+                remotebuildversion="${ver}"
+                break
+            fi
+        done
+
+        if [ -z "${remotebuildversion}" ]; then
+            fn_print_fail "No valid builds available for any version"
+            core_exit.sh
+        fi
+
     else
         # Validate requested version exists
         exists=$(echo "${manifest}" | jq -r --arg ver "${mcversion}" '.[] | select(.name==$ver) | .name')
@@ -54,6 +68,16 @@ fn_update_remotebuild() {
             fn_print_fail "Requested version ${mcversion} does not exist"
             core_exit.sh
         fi
+
+        # Check builds for requested version
+        build_manifest=$(curl -s "https://api.mohistmc.com/project/mohist/${mcversion}/builds")
+        build_count=$(echo "${build_manifest}" | jq '. | length')
+
+        if [ "${build_count}" -eq 0 ]; then
+            fn_print_fail "Requested version ${mcversion} has no builds available"
+            core_exit.sh
+        fi
+
         remotebuildversion="${mcversion}"
     fi
 
