@@ -1,7 +1,9 @@
 #!/bin/bash
-# LinuxGSM update_mc.sh module
-# Fabric version
-# Handles updating of Fabric servers.
+# LinuxGSM update_fabric.sh module
+# Author: Adapted from Bardhyl Sllamniku
+# Contributors: https://linuxgsm.com/contrib
+# Website: https://linuxgsm.com
+# Description: Handles updating of Fabric servers.
 
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 
@@ -9,44 +11,51 @@ fn_update_dl() {
 	# Download server jar.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "noforce" "nohash"
 	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/minecraft_server.jar"
+	echo "${remotebuildversion}" > "/app/fabric_version.txt"
 	fn_clear_tmp
 }
 
 fn_update_localbuild() {
-	# Gets local build info.
-	fn_print_dots "Checking local build: ${remotelocation}"
-	if [ -d "${executabledir}" ]; then
-		cd "${executabledir}" || exit
-		localbuild=$(unzip -p "minecraft_server.jar" version.json 2>/dev/null | jq -r '.id' || echo "")
-	fi
-	if [ -z "${localbuild}" ]; then
-		fn_print_error "Checking local build: ${remotelocation}: missing local build info"
-		fn_script_log_error "Missing local build info"
-		localbuild="0"
-	else
-		fn_print_ok "Checking local build: ${remotelocation}"
-		fn_script_log_pass "Checking local build"
-	fi
+    # Gets local build info from fabric_version.txt
+    fn_print_dots "Checking local build: ${remotelocation}"
+    
+    if [ -f "/app/fabric_version.txt" ]; then
+        localbuild=$(<"/app/fabric_version.txt")
+    else
+        fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+        fn_script_log_error "Missing local build info"
+        localbuild="0"
+    fi
+
+    if [ -z "${localbuild}" ] || [ "${localbuild}" == "0" ]; then
+        fn_print_error "Local build not set"
+        fn_script_log_error "Local build not set"
+    else
+        fn_print_ok "Checking local build: ${remotelocation}"
+        fn_script_log_pass "Checking local build"
+    fi
 }
 
 fn_update_remotebuild() {
 	# Resolve mcversion if set to "latest"
 	if [ "${mcversion}" == "latest" ]; then
 		gamejson=$(curl -s "https://meta.fabricmc.net/v2/versions/game")
-		mcversion=$(echo "${gamejson}" | jq -r '[.[] | select(.stable==true)][0].version')
+		remotebuildversion=$(echo "${gamejson}" | jq -r '[.[] | select(.stable==true)][0].version')
+	else
+		remotebuildversion="${mcversion}"
 	fi
 
 	# Get latest installer and loader for that mcversion
 	apiurl="https://meta.fabricmc.net/v2/versions"
 	installerjson=$(curl -s "${apiurl}/installer")
-	loaderjson=$(curl -s "${apiurl}/loader/${mcversion}")
+	loaderjson=$(curl -s "${apiurl}/loader/${remotebuildversion}")
 
 	installer_version=$(echo "${installerjson}" | jq -r '.[0].version')
-	loader_version=$(echo "${loaderjson}" | jq -r '.[0].version')
+	loader_version=$(echo "${loaderjson}" | jq -r '.[0].loader.version')
 
-	remotebuildversion="${mcversion}-${loader_version}-${installer_version}"
-	remotebuildfilename="fabric-server-${remotebuildversion}.jar"
-	remotebuildurl="https://meta.fabricmc.net/v2/versions/loader/${mcversion}/${loader_version}/${installer_version}/server/jar"
+	remotebuildversiondownload="${remotebuildversion}-${loader_version}-${installer_version}"
+	remotebuildfilename="fabric-server-${remotebuildversiondownload}.jar"
+	remotebuildurl="https://meta.fabricmc.net/v2/versions/loader/${remotebuildversion}/${loader_version}/${installer_version}/server/jar"
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then
 		fn_print_dots "Checking remote build: ${remotelocation}"

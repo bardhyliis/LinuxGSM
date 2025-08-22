@@ -18,6 +18,30 @@ fn_start_jk2() {
 	tmux -L "${socketname}" end -t "${sessionname}" version ENTER > /dev/null 2>&1
 }
 
+fn_enforce_playerslot() {
+    local configfile="${servercfgfullpath}"
+    local key="${playerscfgkey}"
+    local value="${maxplayers}"
+
+    if [ ! -f "$configfile" ]; then
+        return 0
+    fi
+
+    if [ -z "$key" ] || [ -z "$value" ]; then
+        return 0
+    fi
+
+    # Use sed to locate the line containing the exact key (${key}), then
+	# match and capture everything from the key up to (but not including) the number,
+	# and replace only the numeric value following the key with the new value (${value}),
+	# while preserving all surrounding syntax (such as '=', ':', spaces, quotes, XML/JSON tags).
+	# This works regardless of formatting differences across config files,
+	# and edits the file in place using extended regex syntax.
+	sed -i -E "s@(\b${key}[^0-9]*)[0-9]+@\1${value}@" "$configfile"
+
+	printf "\n[LinuxGSM] Enforced slot limit: %s to %s in %s\n" "${key}" "${value}" "${configfile}"
+}
+
 fn_start_tmux() {
 	# check for tmux size variables.
 	if [[ "${servercfgtmuxwidth}" =~ ^[0-9]+$ ]]; then
@@ -66,6 +90,8 @@ fn_start_tmux() {
 	else
 		cd "${executabledir}" || exit
 	fi
+
+	fn_enforce_playerslot
 	
 	tmux -L "${socketname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
