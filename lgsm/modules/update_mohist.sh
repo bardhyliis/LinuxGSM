@@ -16,21 +16,25 @@ fn_update_dl() {
     remotebuildurl="https://api.mohistmc.com/project/mohist/${remotebuildversion}/builds/latest/download"
     fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "mohist-${remotebuildversion}.jar" "chmodx" "norun" "noforce" "nohash"
     cp -f "${tmpdir}/mohist-${remotebuildversion}.jar" "${serverfiles}/mohist.jar"
+	echo "${remotebuildversion}" > "/app/version.txt"
     fn_clear_tmp
 }
 
 fn_update_localbuild() {
-    # Gets local build info from mohist.jar
+    # Gets local build info from version.txt
     fn_print_dots "Checking local build: ${remotelocation}"
-    if [ -f "${serverfiles}/mohist.jar" ]; then
-        localbuild=$(java -jar "${serverfiles}/mohist.jar" --version 2>&1 | grep -oP 'This server is running \K.*')
-    fi
-
-    if [ -z "${localbuild}" ]; then
+    
+    if [ -f "/app/version.txt" ]; then
+        localbuild=$(<"/app/version.txt")
+    else
         fn_print_error "Checking local build: ${remotelocation}: missing local build info"
         fn_script_log_error "Missing local build info"
-        fn_script_log_error "Set localbuild to 0"
         localbuild="0"
+    fi
+
+    if [ -z "${localbuild}" ] || [ "${localbuild}" == "0" ]; then
+        fn_print_error "Local build not set"
+        fn_script_log_error "Local build not set"
     else
         fn_print_ok "Checking local build: ${remotelocation}"
         fn_script_log_pass "Checking local build"

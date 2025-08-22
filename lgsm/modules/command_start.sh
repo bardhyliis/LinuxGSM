@@ -95,6 +95,9 @@ fn_start_tmux() {
 	
 	tmux -L "${socketname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
+	# Enable scrolling by default, without the need to press "Ctrl + b [".
+	tmux -L "${socketname}" set-option -t "${sessionname}" mouse on
+
 	# Create logfile.
 	touch "${consolelog}"
 

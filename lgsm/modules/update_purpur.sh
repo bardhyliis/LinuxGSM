@@ -16,16 +16,16 @@ fn_update_dl() {
     remotebuildurl="${PURPUR_API_MANIFEST}/${remotebuildversion}/latest/download"
     fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "purpur-${remotebuildversion}.jar" "chmodx" "norun" "noforce" "nohash"
     cp -f "${tmpdir}/purpur-${remotebuildversion}.jar" "${serverfiles}/purpur.jar"
-	echo "${remotebuildversion}" > "/app/purpur_version.txt"
+	echo "${remotebuildversion}" > "/app/version.txt"
     fn_clear_tmp
 }
 
 fn_update_localbuild() {
-    # Gets local build info from purpur_version.txt
+    # Gets local build info from version.txt
     fn_print_dots "Checking local build: ${remotelocation}"
     
-    if [ -f "/app/purpur_version.txt" ]; then
-        localbuild=$(<"/app/purpur_version.txt")
+    if [ -f "/app/version.txt" ]; then
+        localbuild=$(<"/app/version.txt")
     else
         fn_print_error "Checking local build: ${remotelocation}: missing local build info"
         fn_script_log_error "Missing local build info"

@@ -11,16 +11,16 @@ fn_update_dl() {
 	# Download server jar.
 	fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "chmodx" "norun" "noforce" "nohash"
 	cp -f "${tmpdir}/${remotebuildfilename}" "${serverfiles}/minecraft_server.jar"
-	echo "${remotebuildversion}" > "/app/fabric_version.txt"
+	echo "${remotebuildversion}" > "/app/version.txt"
 	fn_clear_tmp
 }
 
 fn_update_localbuild() {
-    # Gets local build info from fabric_version.txt
+    # Gets local build info from version.txt
     fn_print_dots "Checking local build: ${remotelocation}"
     
-    if [ -f "/app/fabric_version.txt" ]; then
-        localbuild=$(<"/app/fabric_version.txt")
+    if [ -f "/app/version.txt" ]; then
+        localbuild=$(<"/app/version.txt")
     else
         fn_print_error "Checking local build: ${remotelocation}: missing local build info"
         fn_script_log_error "Missing local build info"
