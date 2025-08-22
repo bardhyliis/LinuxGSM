@@ -93,7 +93,7 @@ mohist,openjdk-21-jre
 neoforge,openjdk-21-jre
 purpur,openjdk-21-jre
 quilt,openjdk-21-jre
-spigot,openjdk-21-jre
+spigot,openjdk-23-jre
 ps
 pvkii
 pvr,libc++1
