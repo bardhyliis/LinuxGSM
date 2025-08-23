@@ -68,7 +68,7 @@ sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${so
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-steamworkslatestfile=$(curl --connect-timeout 3 -sL ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+steamworkslatestfile=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # Stripper:Source
@@ -78,13 +78,13 @@ stripperdownloadurl="http://www.bailopan.net/stripper/snapshots/1.2/${stripperla
 stripperurl="${stripperdownloadurl}"
 
 # CS:GO Mods
-get5lastbuild=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
+get5lastbuild=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
 get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
 get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
-csgopracticelatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
+csgopracticelatest=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
 csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
 csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
-csgopuglatest=$(curl --connect-timeout 3 -sL https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
+csgopuglatest=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
 csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
 csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
 gokzlatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
@@ -96,26 +96,26 @@ movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download
 
 # Rust
 carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
-carbonrustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
+carbonrustlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
 
 # Oxide
-oxiderustlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
-oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+oxiderustlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
+oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 # Valheim Plus
-valheimpluslatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
+valheimpluslatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
 # Valheim BepInEx
-bepinexvhlatestlink=$(curl --connect-timeout 3 -sL "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
+bepinexvhlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
 
 # Barotrauma
-luacsforbarotraumalatestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/evilfactory/LuaCsForBarotrauma/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("luacsforbarotrauma_build_linux_server.tar.gz")) | .browser_download_url')
+luacsforbarotraumalatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/evilfactory/LuaCsForBarotrauma/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("luacsforbarotrauma_build_linux_server.tar.gz")) | .browser_download_url')
 
 # Unturned
-uessentials_latestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/TH3AL3X/uEssentials/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("uEssentials.zip")) | .browser_download_url')
-zaupfeast_latestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/RocketModPlugins/ZaupFeast/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("ZaupFeast.zip")) | .browser_download_url')
+uessentials_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/TH3AL3X/uEssentials/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("uEssentials.zip")) | .browser_download_url')
+zaupfeast_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/RocketModPlugins/ZaupFeast/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("ZaupFeast.zip")) | .browser_download_url')
 
 # Terraria
-tshock_latestlink=$(curl --connect-timeout 3 -sL https://api.github.com/repos/Pryaxis/TShock/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+tshock_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/Pryaxis/TShock/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux-amd64-Release.zip")) | .browser_download_url')
 
 # Minecraft: Java
 # neoforgedownloadurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/VERSION/neoforge-VERSION-installer.jar"
@@ -151,7 +151,7 @@ modseparator="MOD"
 # mod_info_neoforge=(MOD "neoforge" "NeoForge" "${neoforgeurl}" "neoforge-VERSION-installer.jar" "0" "LowercaseOff" "${lgsmdir}/tmp" "OVERWRITE" "ENGINES" "Minecraft: Java;" "NOTGAMES" "https://neoforged.net/" "NeoForge is a Minecraft modding platform" "1" "neoforge" "run.sh" "1" "user_jvm_args.txt")
 
 #Terraria
-mod_info_tshock=(MOD "tshock" "TShock" "${tshock_latestlink}" "tshock_linux.tar.gz" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Terraria;" "NOTGAMES" "https://github.com/Pryaxis/TShock" "Admin tools and plugins framework for Terraria servers" "tshock")
+mod_info_tshock=(MOD "tshock" "TShock" "${tshock_latestlink}" "tshock_linux.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Terraria;" "NOTGAMES" "https://github.com/Pryaxis/TShock" "Admin tools and plugins framework for Terraria servers" "tshock")
 
 # Unturned
 mod_info_uessentials=(MOD "uessentials" "uEssentials" "${uessentials_latestlink}" "uEssentials.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Unturned;" "NOTGAMES" "https://github.com/TH3AL3X/uEssentials" "Essential commands and features plugin for Unturned servers")
@@ -239,4 +239,4 @@ mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valheimpluslatestlink}
 mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=("${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}" "${mod_info_neoforge[@]}")
+mods_global_array=("${mod_info_luaforbarotrauma[@]}" "${mod_info_tshock[@]}" "${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}" "${mod_info_neoforge[@]}")

@@ -750,6 +750,23 @@ fn_mod_remove_amxmodx_file() {
 	fi
 }
 
+fn_handle_mod() {
+	# Handle TShock mod
+	if [ "${modhandlemode}" == "tshock" ]; then
+		# Adjust executable/preexecutable if mod requires it
+        echo "Configuring executable for TShock..."
+
+        # Handle executable
+        if grep -q "^executable=" "${configdir}/${selfname}.cfg"; then
+            sed -i "s|^executable=.*|executable=\"./TShock.Server\"|" "${configdir}/${selfname}.cfg"
+        else
+            echo "executable=\"./TShock.Server\"" >> "${configdir}/${selfname}.cfg"
+        fi
+
+        echo "TShock configuration complete."
+	fi
+}
+
 ## Database initialisation.
 
 mods_list.sh
