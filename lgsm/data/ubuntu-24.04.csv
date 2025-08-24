@@ -20,7 +20,7 @@ bfv,libstdc++5:i386
 bmdm
 bo
 bs
-bt,libicu-dev,dos2unix,libxml2-utils
+bt,libicu-dev,dos2unix,libxml2-utils,dotnet-sdk-9.0
 btl
 cc
 ck,xvfb,libxi6

@@ -32,6 +32,8 @@ fn_mod_install_files() {
 
 	if [ "${modhandlemode}" == "tshock" ]; then
 		fn_dl_extract "${modstmpdir}" "TShock-Beta-linux-x64-Release.tar" "${extractdest}"
+	elif [ "${modhandlemode}" == "tshock" ]; then
+		fn_dl_extract "${modstmpdir}" "TShock-Beta-linux-x64-Release.tar" "${extractdest}"
 	fi
 }
 
@@ -77,7 +79,23 @@ fn_mod_create_filelist() {
 	echo -en "building ${modcommand}-files.txt..."
 	fn_sleep_time
 	# ${modsdir}/${modcommand}-files.txt.
-	find "${extractdest}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
+	
+	# Split into array using pipe
+	IFS="|" read -r subdir includeDir <<< "$modsubdir"
+
+	if [ -z "$subdir" ] || [ "$subdir" == "0" ]; then
+		# Case: modsubdir is "0" or empty → list everything
+		find "${extractdest}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
+	else
+		if [ "$includeDir" == "0" ]; then
+			# List only contents inside the subdir
+			find "${extractdest}/${subdir}" -mindepth 1 -printf "%P\n" > "${modsdir}/${modcommand}-files.txt"
+		else
+			# List including the directory itself (prefix subdir)
+			find "${extractdest}/${subdir}" -mindepth 0 -printf "${subdir}/%P\n" > "${modsdir}/${modcommand}-files.txt"
+		fi
+	fi
+
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
@@ -97,7 +115,23 @@ fn_mod_create_filelist() {
 fn_mod_copy_destination() {
 	echo -en "copying ${modprettyname} to ${modinstalldir}..."
 	fn_sleep_time
-	cp -Rf "${extractdest}/." "${modinstalldir}/"
+
+	# Split into array using pipe
+	IFS="|" read -r subdir includeDir <<< "$modsubdir"
+
+	if [ -z "$subdir" ] || [ "$subdir" == "0" ]; then
+		# Case: modsubdir is "0" or empty → copy everything
+		cp -Rf "${extractdest}/." "${modinstalldir}/"
+	else
+		if [ "$includeDir" == "0" ]; then
+			# Copy only the contents inside the subdir
+			cp -Rf "${extractdest}/${subdir}/." "${modinstalldir}/"
+		else
+			# Copy including the directory itself
+			cp -Rf "${extractdest}/${subdir}" "${modinstalldir}/"
+		fi
+	fi
+
 	exitcode=$?
 	if [ "${exitcode}" -ne 0 ]; then
 		fn_print_fail_eol_nl
@@ -251,6 +285,7 @@ fn_mods_define() {
 	modsite="${mods_global_array[index + 12]}"
 	moddescription="${mods_global_array[index + 13]}"
 	modhandlemode="${mods_global_array[index + 14]:-0}"
+	modsubdir="${mods_global_array[index + 15]:-0}"
 }
 
 # Builds list of installed mods.
