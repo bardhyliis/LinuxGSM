@@ -767,6 +767,13 @@ fn_handle_mod() {
             echo "executable=\"./TShock/TShock.Server\"" >> "${configdir}/${selfname}/${selfname}.cfg"
         fi
 
+		# Handle executabledir
+        if grep -q "^executabledir=" "${configdir}/${selfname}/${selfname}.cfg"; then
+            sed -i "s|^executabledir=.*|executabledir=\"\${serverfiles}/TShock\"|" "${configdir}/${selfname}/${selfname}.cfg"
+        else
+            echo "executabledir=\"\${serverfiles}/TShock\"" >> "${configdir}/${selfname}/${selfname}.cfg"
+        fi
+
         echo "TShock configuration complete."
 	fi
 }
