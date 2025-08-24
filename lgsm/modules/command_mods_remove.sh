@@ -126,6 +126,11 @@ else
 	fn_print_ok_eol_nl
 fi
 
+# If mod requires executable configuration removal
+if [ "${modhandlemode}" != "0" ]; then
+    fn_handle_mod_deletion_mode
+fi
+
 # Oxide fix
 # Oxide replaces server files, so a validate is required after uninstall.
 if [ "${engine}" == "unity3d" ] && [[ "${modprettyname}" == *"Oxide"* ]]; then

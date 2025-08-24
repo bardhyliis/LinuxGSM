@@ -754,10 +754,9 @@ fn_mod_remove_amxmodx_file() {
 	fi
 }
 
-fn_handle_mod() {
+fn_handle_mod_installation_mode() {
 	# Handle TShock mod
 	if [ "${modhandlemode}" == "tshock" ]; then
-		# Adjust executable/preexecutable if mod requires it
         echo "Configuring executable for TShock..."
 
         # Handle executable
@@ -775,6 +774,25 @@ fn_handle_mod() {
         fi
 
         echo "TShock configuration complete."
+	fi
+}
+
+fn_handle_mod_deletion_mode() {
+	# Handle TShock mod
+	if [ "${modhandlemode}" == "tshock" ]; then
+        echo "Removing executable configuration for TShock..."
+
+        # Remove executable if it exists
+		if grep -q "^executable=" "${configdir}/${selfname}/${selfname}.cfg"; then
+			sed -i "/^executable=/d" "${configdir}/${selfname}/${selfname}.cfg"
+		fi
+
+		# Remove executabledir if it exists
+		if grep -q "^executabledir=" "${configdir}/${selfname}/${selfname}.cfg"; then
+			sed -i "/^executabledir=/d" "${configdir}/${selfname}/${selfname}.cfg"
+		fi
+
+        echo "TShock configuration removal complete."
 	fi
 }
 

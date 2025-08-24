@@ -121,7 +121,7 @@ fn_mods_clear_tmp_dir
 
 # If mod requires executable update
 if [ "${modhandlemode}" != "0" ]; then
-    fn_handle_mod
+    fn_handle_mod_installation_mode
 fi
 
 # Create/modify existing liblist.gam file for Metamod
