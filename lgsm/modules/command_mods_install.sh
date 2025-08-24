@@ -94,23 +94,6 @@ if [ -f "${modsinstalledlistfullpath}" ]; then
 	fi
 fi
 
-# Ask for version if required
-# if [ "${modversionselect}" == "versionselect" ]; then
-#     while true; do
-#         echo -en "Enter desired version (e.g. 20.4.123): "
-#         read -r userversion
-#         # Trim whitespace
-#         userversion=$(echo "$userversion" | xargs)
-#         if [ -n "$userversion" ]; then
-#             break
-#         else
-#             echo "Version cannot be empty. Please enter a valid version."
-#         fi
-#     done
-#     modurl="${modurl//\[VERSION\]/$userversion}"
-#     modfilename="${modfilename//\[VERSION\]/$userversion}"
-# fi
-
 ## Installation.
 # If amxmodx check if metamod exists first
 if [ "${modcommand}" == "amxmodx" ]; then

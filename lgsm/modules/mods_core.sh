@@ -28,7 +28,11 @@ fn_mod_install_files() {
 	if [ ! -d "${extractdest}" ]; then
 		mkdir -p "${extractdest}"
 	fi
-	fn_dl_extract "${modstmpdir}" "${modfilename}" "${extractdest}"
+	fn_dl_extract "${modstmpdir}" "${modfilename}" "${modstmpdir}"
+
+	if [ "${modhandlemode}" == "tshock" ]; then
+		fn_dl_extract "${modstmpdir}" "TShock-Beta-linux-x64-Release.tar" "${extractdest}"
+	fi
 }
 
 # Convert mod files to lowercase if needed.
@@ -757,10 +761,10 @@ fn_handle_mod() {
         echo "Configuring executable for TShock..."
 
         # Handle executable
-        if grep -q "^executable=" "${configdir}/${selfname}.cfg"; then
-            sed -i "s|^executable=.*|executable=\"./TShock.Server\"|" "${configdir}/${selfname}.cfg"
+        if grep -q "^executable=" "${configdir}/${selfname}/${selfname}.cfg"; then
+            sed -i "s|^executable=.*|executable=\"./TShock/TShock.Server\"|" "${configdir}/${selfname}/${selfname}.cfg"
         else
-            echo "executable=\"./TShock.Server\"" >> "${configdir}/${selfname}.cfg"
+            echo "executable=\"./TShock/TShock.Server\"" >> "${configdir}/${selfname}/${selfname}.cfg"
         fi
 
         echo "TShock configuration complete."

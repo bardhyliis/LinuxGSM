@@ -234,12 +234,19 @@ fn_dl_extract() {
 		fn_script_log_fail "File ${local_filedir}/${local_filename} not found"
 		core_exit.sh
 	fi
+
 	mime=$(file -b --mime-type "${local_filedir}/${local_filename}")
 	if [ "${mime}" == "application/gzip" ] || [ "${mime}" == "application/x-gzip" ]; then
 		if [ -n "${extractsrc}" ]; then
 			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
 		else
 			extractcmd=$(tar -zxf "${local_filedir}/${local_filename}" -C "${extractdest}")
+		fi
+	elif [ "${mime}" == "application/x-tar" ]; then
+		if [ -n "${extractsrc}" ]; then
+			extractcmd=$(tar -xvf "${local_filedir}/${local_filename}" -C "${extractdest}" --strip-components=1 "${extractsrc}")
+		else
+			extractcmd=$(tar -xvf "${local_filedir}/${local_filename}" -C "${extractdest}")
 		fi
 	elif [ "${mime}" == "application/x-bzip2" ]; then
 		if [ -n "${extractsrc}" ]; then

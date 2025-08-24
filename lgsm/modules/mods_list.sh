@@ -68,7 +68,7 @@ sourcemoddownloadurl="https://www.sourcemod.net/latest.php?os=linux&version=${so
 sourcemodurl="${sourcemoddownloadurl}"
 # Steamworks
 steamworksscrapeurl="https://users.alliedmods.net/~kyles/builds/SteamWorks"
-steamworkslatestfile=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
+steamworkslatestfile=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" ${steamworksscrapeurl} | grep -m 1 linux | cut -d '"' -f 4)
 steamworksdownloadurl="${steamworksscrapeurl}/${steamworkslatestfile}"
 steamworksurl="${steamworksdownloadurl}"
 # Stripper:Source
@@ -78,13 +78,13 @@ stripperdownloadurl="http://www.bailopan.net/stripper/snapshots/1.2/${stripperla
 stripperurl="${stripperdownloadurl}"
 
 # CS:GO Mods
-get5lastbuild=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
+get5lastbuild=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/splewis/get5/releases/latest | jq '.assets[] |select(.browser_download_url | endswith(".tar.gz"))')
 get5latestfile=$(echo -e "${get5lastbuild}" | jq -r '.name')
 get5latestfilelink=$(echo -e "${get5lastbuild}" | jq -r '.browser_download_url')
-csgopracticelatest=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
+csgopracticelatest=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/splewis/csgo-practice-mode/releases/latest | jq '.assets[]')
 csgopracticelatestfile=$(echo -e "${csgopracticelatest}" | jq -r '.name')
 csgopracticelatestlink=$(echo -e "${csgopracticelatest}" | jq -r '.browser_download_url')
-csgopuglatest=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
+csgopuglatest=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/splewis/csgo-pug-setup/releases/latest | jq '.assets[]')
 csgopuglatestfile=$(echo -e "${csgopuglatest}" | jq -r '.name')
 csgopuglatestlink=$(echo -e "${csgopuglatest}" | jq -r '.browser_download_url')
 gokzlatestversion=$(curl --connect-timeout 3 -s https://api.github.com/repos/KZGlobalTeam/gokz/releases/latest | grep "tag_name" | cut -d : -f 2,3 | sed -E 's/.*"([^"]+)".*/\1/')
@@ -96,26 +96,26 @@ movementapilatestlink="https://github.com/danzayau/MovementAPI/releases/download
 
 # Rust
 carbonrustapilatestfile="Carbon.Linux.Release.tar.gz"
-carbonrustlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
+carbonrustlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/CarbonCommunity/Carbon.Core/releases/tags/production_build | jq -r '.assets[]|select(.name == "Carbon.Linux.Release.tar.gz") | .browser_download_url')
 
 # Oxide
-oxiderustlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
-oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
-oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+oxiderustlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/OxideMod/Oxide.Rust/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
+oxidehurtworldlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/OxideMod/Oxide.Hurtworld/releases/latest | jq -r '.assets[].browser_download_url')
+oxidesdtdlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/OxideMod/Oxide.SevenDaysToDie/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux")) | .browser_download_url')
 # Valheim Plus
-valheimpluslatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
+valheimpluslatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/Grantapher/ValheimPlus/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("UnixServer.tar.gz")) | .browser_download_url')
 # Valheim BepInEx
-bepinexvhlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
+bepinexvhlatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" "https://thunderstore.io/api/experimental/package/denikson/BepInExPack_Valheim/" -H "accept: application/json" | jq -r '.latest.download_url')
 
 # Barotrauma
-luacsforbarotraumalatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/evilfactory/LuaCsForBarotrauma/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("luacsforbarotrauma_build_linux_server.tar.gz")) | .browser_download_url')
+luacsforbarotraumalatestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/evilfactory/LuaCsForBarotrauma/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("luacsforbarotrauma_build_linux_server.tar.gz")) | .browser_download_url')
 
 # Unturned
-uessentials_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/TH3AL3X/uEssentials/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("uEssentials.zip")) | .browser_download_url')
-zaupfeast_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/RocketModPlugins/ZaupFeast/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("ZaupFeast.zip")) | .browser_download_url')
+uessentials_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/TH3AL3X/uEssentials/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("uEssentials.zip")) | .browser_download_url')
+zaupfeast_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/RocketModPlugins/ZaupFeast/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("ZaupFeast.zip")) | .browser_download_url')
 
 # Terraria
-tshock_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: token $PAT" https://api.github.com/repos/Pryaxis/TShock/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux-amd64-Release.zip")) | .browser_download_url')
+tshock_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/Pryaxis/TShock/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux-amd64-Release.zip")) | .browser_download_url')
 
 # Minecraft: Java
 # neoforgedownloadurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/VERSION/neoforge-VERSION-installer.jar"
@@ -138,7 +138,7 @@ modseparator="MOD"
 # [4] 	| "filename": the output filename
 # [5]	| "modsubdirs": in how many subdirectories is the mod (none is 0) (not used at release, but could be in the future)
 # [6]	| "LowercaseOn/Off": LowercaseOff or LowercaseOn: enable/disable converting extracted files and directories to lowercase (some games require it)
-# [7] 	| "modinstalldir": the directory in which to install the mode (use LGSM dir variables such as ${systemdir})
+# [7] 	| "modinstalldir": the directory in which to install the mod (use LGSM dir variables such as ${systemdir})
 # [8]	| "/files/to/keep;", files & directories that should not be overwritten upon update, separated and ended with a semicolon; you can also use "OVERWRITE" value to ignore the value or "NOUPDATE" to disallow updating; for files to keep upon uninstall, see fn_mod_tidy_files_list from mods_core.sh
 # [9] 	| "Supported Engines;": list them according to LGSM ${engine} variables, separated and ended with a semicolon, or use ENGINES to ignore the value
 # [10] 	| "Supported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use GAMES to ignore the value
@@ -151,7 +151,7 @@ modseparator="MOD"
 # mod_info_neoforge=(MOD "neoforge" "NeoForge" "${neoforgeurl}" "neoforge-VERSION-installer.jar" "0" "LowercaseOff" "${lgsmdir}/tmp" "OVERWRITE" "ENGINES" "Minecraft: Java;" "NOTGAMES" "https://neoforged.net/" "NeoForge is a Minecraft modding platform" "1" "neoforge" "run.sh" "1" "user_jvm_args.txt")
 
 #Terraria
-mod_info_tshock=(MOD "tshock" "TShock" "${tshock_latestlink}" "tshock_linux.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Terraria;" "NOTGAMES" "https://github.com/Pryaxis/TShock" "Admin tools and plugins framework for Terraria servers" "tshock")
+mod_info_tshock=(MOD "tshock" "TShock" "${tshock_latestlink}" "tshock_linux.zip" "0" "LowercaseOff" "${systemdir}/TShock" "OVERWRITE" "ENGINES" "Terraria;" "NOTGAMES" "https://github.com/Pryaxis/TShock" "Admin tools and plugins framework for Terraria servers" "tshock")
 
 # Unturned
 mod_info_uessentials=(MOD "uessentials" "uEssentials" "${uessentials_latestlink}" "uEssentials.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Unturned;" "NOTGAMES" "https://github.com/TH3AL3X/uEssentials" "Essential commands and features plugin for Unturned servers")
