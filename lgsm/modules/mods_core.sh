@@ -37,10 +37,6 @@ fn_mod_install_files() {
 	if [ "$modfile" != "0" ]; then
 		fn_dl_extract "${modstmpdir}" "$modfile" "${extractdest}"
 	fi
-
-	if [ "${modhandlemode}" == "tshock" ]; then
-		fn_dl_extract "${modstmpdir}" "TShock-Beta-linux-x64-Release.tar" "${extractdest}"
-	fi
 }
 
 # Convert mod files to lowercase if needed.
@@ -290,8 +286,8 @@ fn_mods_define() {
 	modexcludegames="${mods_global_array[index + 11]}"
 	modsite="${mods_global_array[index + 12]}"
 	moddescription="${mods_global_array[index + 13]}"
-	modhandlemode="${mods_global_array[index + 14]:-0}"
-	modsubdir="${mods_global_array[index + 15]:-0}"
+	modhandlemode="${mods_global_array[index + 14]}"
+	modsubdir="${mods_global_array[index + 15]}"
 }
 
 # Builds list of installed mods.
@@ -805,9 +801,9 @@ fn_handle_mod_installation_mode() {
 
         # Handle executable
         if grep -q "^executable=" "${configdir}/${selfname}/${selfname}.cfg"; then
-            sed -i "s|^executable=.*|executable=\"./TShock/TShock.Server\"|" "${configdir}/${selfname}/${selfname}.cfg"
+            sed -i "s|^executable=.*|executable=\"./TShock.Server\"|" "${configdir}/${selfname}/${selfname}.cfg"
         else
-            echo "executable=\"./TShock/TShock.Server\"" >> "${configdir}/${selfname}/${selfname}.cfg"
+            echo "executable=\"./TShock.Server\"" >> "${configdir}/${selfname}/${selfname}.cfg"
         fi
 
         # Handle executabledir
