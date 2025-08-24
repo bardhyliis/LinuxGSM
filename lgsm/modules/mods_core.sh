@@ -30,9 +30,15 @@ fn_mod_install_files() {
 	fi
 	fn_dl_extract "${modstmpdir}" "${modfilename}" "${modstmpdir}"
 
+	# Split special_handling into modfile and keyword (ignore keyword here)
+	IFS="|" read -r modfile modkeyword <<< "$modhandlemode"
+
+	# Only extract if modfile is not "0"
+	if [ "$modfile" != "0" ]; then
+		fn_dl_extract "${modstmpdir}" "$modfile" "${extractdest}"
+	fi
+
 	if [ "${modhandlemode}" == "tshock" ]; then
-		fn_dl_extract "${modstmpdir}" "TShock-Beta-linux-x64-Release.tar" "${extractdest}"
-	elif [ "${modhandlemode}" == "tshock" ]; then
 		fn_dl_extract "${modstmpdir}" "TShock-Beta-linux-x64-Release.tar" "${extractdest}"
 	fi
 }
@@ -79,7 +85,7 @@ fn_mod_create_filelist() {
 	echo -en "building ${modcommand}-files.txt..."
 	fn_sleep_time
 	# ${modsdir}/${modcommand}-files.txt.
-	
+
 	# Split into array using pipe
 	IFS="|" read -r subdir includeDir <<< "$modsubdir"
 
@@ -790,8 +796,11 @@ fn_mod_remove_amxmodx_file() {
 }
 
 fn_handle_mod_installation_mode() {
-	# Handle TShock mod
-	if [ "${modhandlemode}" == "tshock" ]; then
+    # Split special_handling into modfile and keyword
+    IFS="|" read -r _ modkeyword <<< "$modhandlemode"
+
+    # Handle TShock mod if keyword matches
+    if [ "$modkeyword" == "tshock" ]; then
         echo "Configuring executable for TShock..."
 
         # Handle executable
@@ -801,7 +810,7 @@ fn_handle_mod_installation_mode() {
             echo "executable=\"./TShock/TShock.Server\"" >> "${configdir}/${selfname}/${selfname}.cfg"
         fi
 
-		# Handle executabledir
+        # Handle executabledir
         if grep -q "^executabledir=" "${configdir}/${selfname}/${selfname}.cfg"; then
             sed -i "s|^executabledir=.*|executabledir=\"\${serverfiles}/TShock\"|" "${configdir}/${selfname}/${selfname}.cfg"
         else
@@ -809,26 +818,25 @@ fn_handle_mod_installation_mode() {
         fi
 
         echo "TShock configuration complete."
-	fi
+    fi
 }
 
 fn_handle_mod_deletion_mode() {
-	# Handle TShock mod
-	if [ "${modhandlemode}" == "tshock" ]; then
+    # Split special_handling into modfile and keyword
+    IFS="|" read -r _ modkeyword <<< "$modhandlemode"
+
+    # Handle TShock mod if keyword matches
+    if [ "$modkeyword" == "tshock" ]; then
         echo "Removing executable configuration for TShock..."
 
         # Remove executable if it exists
-		if grep -q "^executable=" "${configdir}/${selfname}/${selfname}.cfg"; then
-			sed -i "/^executable=/d" "${configdir}/${selfname}/${selfname}.cfg"
-		fi
+        sed -i "/^executable=/d" "${configdir}/${selfname}/${selfname}.cfg" 2>/dev/null || true
 
-		# Remove executabledir if it exists
-		if grep -q "^executabledir=" "${configdir}/${selfname}/${selfname}.cfg"; then
-			sed -i "/^executabledir=/d" "${configdir}/${selfname}/${selfname}.cfg"
-		fi
+        # Remove executabledir if it exists
+        sed -i "/^executabledir=/d" "${configdir}/${selfname}/${selfname}.cfg" 2>/dev/null || true
 
         echo "TShock configuration removal complete."
-	fi
+    fi
 }
 
 ## Database initialisation.

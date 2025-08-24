@@ -145,7 +145,18 @@ modseparator="MOD"
 # [11]	| "Unsupported Games;": list them according to LGSM ${gamename} variables, separated and ended with a semicolon, or use NOTGAMES to ignore the value (useful to exclude a game when using Supported Engines)
 # [12]	| "AUTHOR_URL" is the author's website, displayed to the user when chosing mods to install
 # [13]	| "Short Description" a description showed to the user upon installation/removal
-# [14]	| "handle_mode", exec mode: neoforge, tshock, etc. (special handling), 0 for no special handling
+
+# [14]  | "special_handling"
+# Example:
+#   publish/TShock-Beta-linux-x64-Release.tar|0      → normal extraction
+#   publish/TShock-Beta-linux-x64-Release.tar|tshock → special handling (e.g., replace executable, nested archive extraction)
+#   0|tshock                                        → no extraction, only special handling
+# Explanation:
+#   - The first part is the filename of the archive. "0" means skip extraction.
+#   - The second part is the special handling keyword. "0" = no special handling.
+#   - Keywords indicate if the archive needs custom processing, such as altering executables, flattening nested archives, or other mod-specific adjustments.
+#   - If the filename is "0", no extraction occurs, but any special handling logic will still run.
+
 # [15]  | "mod_subdir|parentFolderIncluded"
 # Example:
 #   publish/uEssentials|1 → includes the "uEssentials" folder itself
@@ -154,12 +165,8 @@ modseparator="MOD"
 #   - mod_subdir = the subdirectory inside the mod folder where files are located
 #   - parentFolderIncluded = 1 to include the folder itself, 0 to exclude it
 
-
-# Minecraft: Java
-# mod_info_neoforge=(MOD "neoforge" "NeoForge" "${neoforgeurl}" "neoforge-VERSION-installer.jar" "0" "LowercaseOff" "${lgsmdir}/tmp" "OVERWRITE" "ENGINES" "Minecraft: Java;" "NOTGAMES" "https://neoforged.net/" "NeoForge is a Minecraft modding platform" "1" "neoforge" "run.sh" "1" "user_jvm_args.txt")
-
 #Terraria
-mod_info_tshock=(MOD "tshock" "TShock" "${tshock_latestlink}" "tshock_linux.zip" "0" "LowercaseOff" "${systemdir}/TShock" "OVERWRITE" "ENGINES" "Terraria;" "NOTGAMES" "https://github.com/Pryaxis/TShock" "Admin tools and plugins framework for Terraria servers" "tshock")
+mod_info_tshock=(MOD "tshock" "TShock" "${tshock_latestlink}" "tshock_linux.zip" "0" "LowercaseOff" "${systemdir}/TShock" "OVERWRITE" "ENGINES" "Terraria;" "NOTGAMES" "https://github.com/Pryaxis/TShock" "Admin tools and plugins framework for Terraria servers" "TShock-Beta-linux-x64-Release.tar|tshock")
 
 # Unturned
 mod_info_uessentials=(MOD "uessentials" "uEssentials" "${uessentials_latestlink}" "uEssentials.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Unturned;" "NOTGAMES" "https://github.com/TH3AL3X/uEssentials" "Essential commands and features plugin for Unturned servers")
