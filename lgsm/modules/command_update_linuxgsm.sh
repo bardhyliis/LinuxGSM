@@ -101,14 +101,14 @@ if [ "${script_diff}" != "" ]; then
 		echo -e "backup location [ ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak ]"
 		fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	fi
-
+	
 	echo -en "copying ${selfname}"
 	fn_script_log_info "Copying ${selfname}"
 	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"
 	sed -i "s+shortname=\"core\"+shortname=\"${shortname}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+gameservername=\"core\"+gameservername=\"${gameservername}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+gamename=\"core\"+gamename=\"${gamename}\"+g" "${rootdir}/${selfname}"
-	sed -i "s+githubuser=\"GameServerManagers\"+githubuser=\"${githubuser}\"+g" "${rootdir}/${selfname}"
+	sed -i "s+githubuser=\"bardhyliis\"+githubuser=\"${githubuser}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+githubrepo=\"LinuxGSM\"+githubrepo=\"${githubrepo}\"+g" "${rootdir}/${selfname}"
 	sed -i "s+githubbranch=\"master\"+githubbranch=\"${githubbranch}\"+g" "${rootdir}/${selfname}"
 
