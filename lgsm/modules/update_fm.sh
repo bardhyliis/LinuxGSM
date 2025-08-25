@@ -33,14 +33,32 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
     fn_print_dots "Checking remote build: ${remotelocation}"
-    remotebuildversion=$(curl -s "${artifacts_url}" | grep -Eo 'href="[0-9]+' | grep -Eo '[0-9]+' | sort -nr | head -n 1)
-    remotebuildfilename="fivem_build_${remotebuildversion}.tar.xz"
-    remotebuildurl="${artifacts_url}${remotebuildversion}/fx.tar.xz"
+
+    # Fetch the list of build folders once
+    artifact_folders=$(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
+        | grep -Eo '\./[0-9]+-[a-z0-9]+/' \
+        | sed 's|^\./||; s|/$||' \
+        | sort -r)
+
+    if [ "${version}" = "latest" ]; then
+        # Pick the first folder as the latest
+        remotebuildversion=$(echo "$artifact_folders" | head -n 1)
+        buildnumber=$(echo "$remotebuildversion" | cut -d'-' -f1)
+    else
+        buildnumber="${version}"
+        # Find the folder starting with the requested build number
+        remotebuildversion=$(echo "$artifact_folders" | grep "^${buildnumber}-" | head -n 1)
+    fi
+
     if [ -z "${remotebuildversion}" ]; then
         fn_print_fail "Could not fetch remote build"
         core_exit.sh
     fi
-    fn_print_ok "Remote build: ${remotebuildversion}"
+
+    remotebuildfilename="fivem_build_${buildnumber}.tar.xz"
+    remotebuildurl="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/${remotebuildversion}/fx.tar.xz"
+
+    fn_print_ok "Remote build: ${remotebuildfilename}"
 }
 
 fn_update_compare() {
