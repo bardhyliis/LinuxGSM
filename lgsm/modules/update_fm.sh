@@ -12,23 +12,34 @@ artifacts_url="https://runtime.fivem.net/artifacts/fivem/build_proot_linux/maste
 
 fn_update_dl() {
     fn_print_info "Downloading and installing FiveM build ${remotebuildversion}"
-    tmpfile="${tmpdir}/fivem_build_${remotebuildversion}.tar.xz"
+    tmpfile="${tmpdir}/${remotebuildfilename}"
     fn_fetch_file "${remotebuildurl}" "" "" "" "${tmpdir}" "${remotebuildfilename}" "" "norun" "noforce" "nohash"
-    tar -xJf "${tmpfile}" -C "${serverfiles}" --strip-components=1
+    tar -xJf "${tmpfile}" -C "${serverfiles}"
+
+    echo "${remotebuildversion}" > "/app/version.txt"
+
     fn_clear_tmp
 }
 
 fn_update_localbuild() {
+    # Gets local build info from version.txt
     fn_print_dots "Checking local build: ${remotelocation}"
-    if [ -f "${serverfiles}/version.json" ]; then
-        localbuild=$(jq -r '.version' "${serverfiles}/version.json")
-    elif [ -f "${serverfiles}/alpine/version.json" ]; then
-        localbuild=$(jq -r '.version' "${serverfiles}/alpine/version.json")
+    
+    if [ -f "/app/version.txt" ]; then
+        localbuild=$(<"/app/version.txt")
     else
-        fn_print_warn "Local version.json not found, assuming build 0"
+        fn_print_error "Checking local build: ${remotelocation}: missing local build info"
+        fn_script_log_error "Missing local build info"
         localbuild="0"
     fi
-    fn_print_ok "Local build: ${localbuild}"
+
+    if [ -z "${localbuild}" ] || [ "${localbuild}" == "0" ]; then
+        fn_print_error "Local build not set"
+        fn_script_log_error "Local build not set"
+    else
+        fn_print_ok "Checking local build: ${remotelocation}"
+        fn_script_log_pass "Checking local build"
+    fi
 }
 
 fn_update_remotebuild() {
@@ -38,14 +49,14 @@ fn_update_remotebuild() {
     artifact_folders=$(curl -s https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/ \
         | grep -Eo '\./[0-9]+-[a-z0-9]+/' \
         | sed 's|^\./||; s|/$||' \
-        | sort -r)
+        | sort -t '-' -k1,1nr)
 
-    if [ "${version}" = "latest" ]; then
+    if [ "${fmversion}" = "latest" ]; then
         # Pick the first folder as the latest
         remotebuildversion=$(echo "$artifact_folders" | head -n 1)
         buildnumber=$(echo "$remotebuildversion" | cut -d'-' -f1)
     else
-        buildnumber="${version}"
+        buildnumber="${fmversion}"
         # Find the folder starting with the requested build number
         remotebuildversion=$(echo "$artifact_folders" | grep "^${buildnumber}-" | head -n 1)
     fi
