@@ -27,4 +27,3 @@ else
 	echo -e "./${selfname} server-cd-key"
 fi
 echo -e ""
-core_exit.sh

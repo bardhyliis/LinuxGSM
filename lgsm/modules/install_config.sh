@@ -289,6 +289,7 @@ elif [ "${shortname}" == "bt" ]; then
 elif [ "${shortname}" == "btl" ]; then
 	fn_check_cfgdir
 	array_configs+=(Game.ini)
+	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -369,6 +370,7 @@ elif [ "${shortname}" == "cs" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "cs2" ]; then
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -481,6 +483,7 @@ elif [ "${shortname}" == "hldms" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "ohd" ]; then
 	array_configs+=(Admins.cfg Engine.ini Game.ini MapCycle.cfg)
+	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -582,6 +585,7 @@ elif [ "${shortname}" == "pvkii" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "pw" ]; then
 	array_configs+=(PalWorldSettings.ini)
+	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -610,11 +614,13 @@ elif [ "${shortname}" == "q2" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "q3" ]; then
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "q4" ]; then
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -777,8 +783,8 @@ elif [ "${shortname}" == "wmc" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "xnt" ]; then
-	fix_xnt.sh
 	array_configs+=(server.cfg)
+	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations

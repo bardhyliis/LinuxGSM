@@ -32,8 +32,7 @@ rootdir=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 selfname=$(basename "$(readlink -f "${BASH_SOURCE[0]}")")
 lgsmdir="${rootdir}/lgsm"
 [ -n "${LGSM_LOGDIR}" ] && logdir="${LGSM_LOGDIR}" || logdir="${rootdir}/log"
-lgsmlogdir="${logdir}/script"
-lgsmlog="${lgsmlogdir}/${selfname}-script.log"
+lgsmlogdir="${logdir}/lgsm"
 steamcmddir="${HOME}/.steam/steamcmd"
 [ -n "${LGSM_SERVERFILES}" ] && serverfiles="${LGSM_SERVERFILES}" || serverfiles="${rootdir}/serverfiles"
 modulesdir="${lgsmdir}/modules"

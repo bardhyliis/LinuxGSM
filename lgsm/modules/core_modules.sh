@@ -275,6 +275,11 @@ compress_unreal2_maps.sh() {
 	fn_fetch_module
 }
 
+compress_ut99_maps.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 # Mods
 
 mods_list.sh() {
