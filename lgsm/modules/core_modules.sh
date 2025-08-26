@@ -76,6 +76,11 @@ command_backup.sh() {
 	fn_fetch_module
 }
 
+command_restore.sh() {
+	modulefile="${FUNCNAME[0]}"
+	fn_fetch_module
+}
+
 command_console.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
@@ -271,11 +276,6 @@ check_version.sh() {
 # Compress
 
 compress_unreal2_maps.sh() {
-	modulefile="${FUNCNAME[0]}"
-	fn_fetch_module
-}
-
-compress_ut99_maps.sh() {
 	modulefile="${FUNCNAME[0]}"
 	fn_fetch_module
 }

@@ -443,7 +443,7 @@ fn_info_game_cfx() {
 # Comment: #
 # Example: set sv_hostname "My Server"
 # Filetype: cfg
-fn_info_game_fivem() {
+fn_info_game_fm() {
 	if [ -f "${servercfgfullpath}" ]; then
 		# Common FiveM cvars
 		fn_info_game_keyvalue "sv_password" "PASSWORD"
@@ -462,7 +462,7 @@ fn_info_game_fivem() {
 # Comment: #
 # Example: set sv_hostname "My Server"
 # Filetype: cfg
-fn_info_game_redm() {
+fn_info_game_rm() {
 	if [ -f "${servercfgfullpath}" ]; then
 		# Common RedM cvars (same as FiveM)
 		fn_info_game_keyvalue "sv_password" "PASSWORD"
@@ -2092,6 +2092,7 @@ fn_info_game_sf() {
 	port="${port:-"0"}"
 	queryport="${queryport:-"0"}"
 	beaconport="${beaconport:-"0"}"
+	reliableport="${reliableport:-"0"}"
 }
 
 # Config Type: Parameters (with an ini)
@@ -2481,6 +2482,10 @@ elif [ "${shortname}" == "cod2" ]; then
 	fn_info_game_cod2
 elif [ "${shortname}" == "cod4" ]; then
 	fn_info_game_cod4
+elif [ "${shortname}" == "fm" ]; then
+	fn_info_game_fm
+elif [ "${shortname}" == "rm" ]; then
+	fn_info_game_rm
 elif [ "${shortname}" == "codwaw" ]; then
 	fn_info_game_codwaw
 elif [ "${shortname}" == "col" ]; then

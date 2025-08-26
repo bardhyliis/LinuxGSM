@@ -289,7 +289,6 @@ elif [ "${shortname}" == "bt" ]; then
 elif [ "${shortname}" == "btl" ]; then
 	fn_check_cfgdir
 	array_configs+=(Game.ini)
-	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -370,7 +369,6 @@ elif [ "${shortname}" == "cs" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "cs2" ]; then
 	array_configs+=(server.cfg)
-	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -483,7 +481,6 @@ elif [ "${shortname}" == "hldms" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "ohd" ]; then
 	array_configs+=(Admins.cfg Engine.ini Game.ini MapCycle.cfg)
-	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -585,7 +582,6 @@ elif [ "${shortname}" == "pvkii" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "pw" ]; then
 	array_configs+=(PalWorldSettings.ini)
-	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -614,13 +610,11 @@ elif [ "${shortname}" == "q2" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "q3" ]; then
 	array_configs+=(server.cfg)
-	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "q4" ]; then
 	array_configs+=(server.cfg)
-	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -784,7 +778,6 @@ elif [ "${shortname}" == "wmc" ]; then
 	fn_list_config_locations
 elif [ "${shortname}" == "xnt" ]; then
 	array_configs+=(server.cfg)
-	fn_fetch_default_config
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
@@ -799,6 +792,61 @@ elif [ "${shortname}" == "zmr" ]; then
 	fn_set_config_vars
 	fn_list_config_locations
 elif [ "${shortname}" == "zps" ]; then
+	array_configs+=(server.cfg)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "acc" ]; then
+	array_configs+=(settings.json)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "arksa" ]; then
+	array_configs+=(GameUserSettings.ini)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "fabric" ]; then
+	array_configs+=(server.properties)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "forge" ]; then
+	array_configs+=(server.properties)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "fm" ]; then
+	array_configs+=(server.cfg)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "mohist" ]; then
+	array_configs+=(server.properties)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "neoforge" ]; then
+	array_configs+=(server.properties)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "purpur" ]; then
+	array_configs+=(server.properties)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "quilt" ]; then
+	array_configs+=(server.properties)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "tmodloader" ]; then
+	array_configs+=(serverconfig.txt)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
+elif [ "${shortname}" == "rm" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote
 	fn_set_config_vars

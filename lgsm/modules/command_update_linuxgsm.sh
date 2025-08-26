@@ -101,7 +101,7 @@ if [ "${script_diff}" != "" ]; then
 		echo -e "backup location [ ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak ]"
 		fn_script_log_pass "Backup location ${backupdir}/script/${selfname}-$(date +"%m_%d_%Y_%M").bak"
 	fi
-
+	
 	echo -en "copying ${selfname}"
 	fn_script_log_info "Copying ${selfname}"
 	cp "${tmpdir}/linuxgsm.sh" "${rootdir}/${selfname}"

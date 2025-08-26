@@ -17,7 +17,8 @@ cmd_stop=("sp;stop" "command_stop.sh" "Stop the server.")
 cmd_restart=("r;restart" "command_restart.sh" "Restart the server.")
 cmd_details=("dt;details" "command_details.sh" "Display server information.")
 cmd_postdetails=("pd;postdetails" "command_postdetails.sh" "Post details to termbin.com (removing passwords).")
-cmd_backup=("b;backup" "command_backup.sh" "Create backup archives of the server.")
+cmd_backup=("b;backup" "command_backup.sh" "Create a backup of the server using rsnapshot and maintain timestamped symlinks for easy restoration.")
+cmd_restore=("rt;restore" "command_restore.sh" "Restore the server from a specific rsnapshot backup using timestamped symlinks or snapshot folders.")
 cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
 cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
 cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
@@ -42,8 +43,7 @@ cmd_change_password=("pw;change-password" "command_ts3_server_pass.sh" "Change T
 cmd_install_default_resources=("ir;install-default-resources" "command_install_resources_mta.sh" "Install the MTA default resources.")
 cmd_fullwipe=("fw;full-wipe;wa;wipeall" "serverwipe=1; command_wipe.sh" "Reset the map and remove blueprint data.")
 cmd_mapwipe=("mw;map-wipe;w;wipe;wi" "mapwipe=1; command_wipe.sh" "Reset the map and keep blueprint data.")
-cmd_map_compressor_u99=("mc;map-compressor" "compress_ut99_maps.sh" "Compresses all ${gamename} server maps.")
-cmd_map_compressor_u2=("mc;map-compressor" "compress_unreal2_maps.sh" "Compresses all ${gamename} server maps.")
+cmd_map_compressor_unreal=("mc;map-compressor" "compress_unreal_maps.sh" "Compresses all ${gamename} server maps.")
 cmd_install_cdkey=("cd;server-cd-key" "install_ut2k4_key.sh" "Add your server cd key.")
 cmd_install_dst_token=("ct;cluster-token" "install_dst_token.sh" "Configure cluster token.")
 cmd_install_squad_license=("li;license" "install_squad_license.sh" "Add your Squad server license.")
@@ -85,6 +85,9 @@ fi
 # Backup.
 currentopt+=("${cmd_backup[@]}")
 
+# Restore.
+currentopt+=("${cmd_restore[@]}")
+
 # Console & Debug.
 currentopt+=("${cmd_console[@]}" "${cmd_debug[@]}")
 
@@ -96,7 +99,7 @@ fi
 ## Game server exclusive commands.
 
 # FastDL command.
-if [ "${engine}" == "source" ]; then
+if [ "${engine}" == "source" ] || [ "${engine}" == "goldsrc" ]; then
 	currentopt+=("${cmd_fastdl[@]}")
 fi
 
@@ -113,13 +116,13 @@ fi
 # Unreal exclusive.
 if [ "${engine}" == "unreal2" ]; then
 	if [ "${shortname}" == "ut2k4" ]; then
-		currentopt+=("${cmd_install_cdkey[@]}" "${cmd_map_compressor_u2[@]}")
+		currentopt+=("${cmd_install_cdkey[@]}" "${cmd_map_compressor_unreal[@]}")
 	else
-		currentopt+=("${cmd_map_compressor_u2[@]}")
+		currentopt+=("${cmd_map_compressor_unreal[@]}")
 	fi
 fi
 if [ "${engine}" == "unreal" ]; then
-	currentopt+=("${cmd_map_compressor_u99[@]}")
+	currentopt+=("${cmd_map_compressor_unreal[@]}")
 fi
 
 # DST exclusive.
