@@ -17,7 +17,8 @@ cmd_stop=("sp;stop" "command_stop.sh" "Stop the server.")
 cmd_restart=("r;restart" "command_restart.sh" "Restart the server.")
 cmd_details=("dt;details" "command_details.sh" "Display server information.")
 cmd_postdetails=("pd;postdetails" "command_postdetails.sh" "Post details to termbin.com (removing passwords).")
-cmd_backup=("b;backup" "command_backup.sh" "Create backup archives of the server.")
+cmd_backup=("b;backup" "command_backup.sh" "Create a backup of the server using rsnapshot and maintain timestamped symlinks for easy restoration.")
+cmd_restore=("rt;restore" "command_restore.sh" "Restore the server from a specific rsnapshot backup using timestamped symlinks or snapshot folders.")
 cmd_update_linuxgsm=("ul;update-lgsm;uf;update-modules" "command_update_linuxgsm.sh" "Check and apply any LinuxGSM updates.")
 cmd_test_alert=("ta;test-alert" "command_test_alert.sh" "Send a test alert.")
 cmd_monitor=("m;monitor" "command_monitor.sh" "Check server status and restart if crashed.")
@@ -83,6 +84,9 @@ fi
 
 # Backup.
 currentopt+=("${cmd_backup[@]}")
+
+# Restore.
+currentopt+=("${cmd_restore[@]}")
 
 # Console & Debug.
 currentopt+=("${cmd_console[@]}" "${cmd_debug[@]}")
