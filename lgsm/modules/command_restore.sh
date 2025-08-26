@@ -78,6 +78,10 @@ fn_restore_execute() {
     else
         fn_print_ok "Restore completed successfully"
         fn_script_log_pass "Restore completed from ${latest_snapshot}"
+        
+        # Trigger alert
+        alert="restore"
+        alert.sh
     fi
 }
 

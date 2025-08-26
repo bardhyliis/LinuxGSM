@@ -128,12 +128,15 @@ fn_backup_create_lockfile() {
     fn_script_log_info "Backup lockfile generated: ${lockdir}/backup.lock (PID $$)"
 
     # Trap to remove lockfile on quit
-    trap fn_backup_trap INT TERM EXIT
+    trap fn_backup_trap INT
 }
 
 # === MAIN RSNAPSHOT BACKUP ===
 fn_backup_rsnapshot() {
     local rsnapconf="/data/backups/configuration/rsnapshot-${selfname}.conf"
+    local snapshots_dir="/data/backups/snapshots"
+    local links_dir="/data/backups/links"
+
     if [ ! -f "${rsnapconf}" ]; then
         fn_print_fail_nl "Missing rsnapshot config: ${rsnapconf}"
         fn_script_log_fail "Missing rsnapshot config: ${rsnapconf}"
@@ -147,28 +150,18 @@ fn_backup_rsnapshot() {
         fn_print_ok "rsnapshot backup completed"
         fn_script_log_pass "Backup completed using rsnapshot (daily)"
 
-        # --- Create/update date symlinks in /data/backups/links ---
-        # Why we create symlinks:
-        # 1. Each snapshot folder created by rsnapshot is named daily.0, daily.1, etc.
-        #    These names rotate with each backup, so daily.0 always points to the newest snapshot.
-        # 2. To keep a permanent reference to the snapshot taken at a specific date/time,
-        #    we create a symlink named with the folder's creation UTC timestamp (YYYYMMDDTHHMMSSZ)
-        #    that points to the actual snapshot folder.
-        # 3. This way, even after rotation, each timestamped symlink points to the correct snapshot folder.
-
-        local links_dir="/data/backups/links"
+        # Ensure links directory exists
         mkdir -p "${links_dir}"
 
         # --- Add a creation timestamp to the latest snapshot ---
-		snapshots_dir="/data/backups/snapshots"
+        snapshots_dir="/data/backups/snapshots"
         latest_snapshot="${snapshots_dir}/daily.0"
 
         # Ensure the snapshot folder exists before writing
         if [ -d "$latest_snapshot" ]; then
-        	if [ ! -f "${latest_snapshot}/.created_at" ]; then
-            	# Compact UTC format: 20250826T081654Z
-                date -u +"%Y%m%dT%H%M%SZ" > "${latest_snapshot}/.created_at"
-        	fi
+            if [ ! -f "${latest_snapshot}/.created_at" ]; then
+                date -u +"%Y-%m-%dT%H:%M:%SZ" > "${latest_snapshot}/.created_at"
+            fi
         else
             fn_print_fail "Latest snapshot folder not found: ${latest_snapshot}"
             fn_script_log_fail "Latest snapshot folder not found: ${latest_snapshot}"
@@ -176,13 +169,13 @@ fn_backup_rsnapshot() {
 
         # --- Update symlinks for all snapshots ---
         for snap in "${snapshots_dir}"/daily.*; do
-        	[ -d "$snap" ] || continue
+            [ -d "$snap" ] || continue
             if [ -f "$snap/.created_at" ]; then
-            	timestamp=$(cat "$snap/.created_at")
+                timestamp=$(cat "$snap/.created_at")
             else
-            	timestamp=$(date -u +"%Y%m%dT%H%M%SZ")
-            	echo "$timestamp" > "$snap/.created_at"
-        	fi
+                timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+                echo "$timestamp" > "$snap/.created_at"
+            fi
             ln -sfn "$snap" "${links_dir}/${timestamp}"
             fn_script_log_info "Updated symlink: ${links_dir}/${timestamp} -> $snap"
         done
@@ -213,7 +206,6 @@ fn_backup_check_lockfile
 fn_backup_create_lockfile
 fn_backup_init
 fn_backup_stop_server
-fn_backup_dirclear
 fn_backup_create_rsnapshot_conf
 fn_backup_rsnapshot
 fn_backup_start_server
