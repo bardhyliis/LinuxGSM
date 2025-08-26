@@ -26,7 +26,7 @@ restore_target="/data/serverfiles"
 # --- Function: Check server status and stop if running ---
 fn_restore_check_server() {
     check_status.sh
-    if [ "${status}" -eq 0 ]; then
+    if [ "${status}" != "0" ]; then
         fn_print_warn_nl "${selfname} is running. Stop the server before restoring."
         fn_script_log_warn "Restore blocked: server running"
         core_exit.sh
@@ -88,7 +88,30 @@ if [ $# -lt 1 ]; then
     core_exit.sh
 fi
 
-restore_point="$1"
+while true; do
+    echo -n "Enter restore point name (or type 'exit' to cancel): "
+    read restore_point
+
+    # Trim whitespace
+    restore_point=$(echo "$restore_point" | xargs)
+
+    # Check if user wants to exit
+    if [[ "$restore_point" == "exit" ]]; then
+        fn_print_info "Restore canceled."
+        core_exit.sh
+    fi
+
+    # Check if input is empty
+    if [[ -z "$restore_point" ]]; then
+        echo ""   # add newline before warning
+        fn_print_warn "No input provided. Please type a restore point or 'exit'."
+        echo ""   # extra newline for spacing
+        continue
+    fi
+
+    # Input is valid, break loop
+    break
+done
 
 fn_restore_check_server
 fn_restore_validate_backup "${restore_point}"
