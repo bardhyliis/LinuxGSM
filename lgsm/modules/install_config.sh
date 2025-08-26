@@ -797,61 +797,6 @@ elif [ "${shortname}" == "zps" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
-elif [ "${shortname}" == "acc" ]; then
-	array_configs+=(settings.json)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "arksa" ]; then
-	array_configs+=(GameUserSettings.ini)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "fabric" ]; then
-	array_configs+=(server.properties)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "forge" ]; then
-	array_configs+=(server.properties)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "fm" ]; then
-	array_configs+=(server.cfg)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "mohist" ]; then
-	array_configs+=(server.properties)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "neoforge" ]; then
-	array_configs+=(server.properties)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "purpur" ]; then
-	array_configs+=(server.properties)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "quilt" ]; then
-	array_configs+=(server.properties)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "tmodloader" ]; then
-	array_configs+=(serverconfig.txt)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
-elif [ "${shortname}" == "rm" ]; then
-	array_configs+=(server.cfg)
-	fn_default_config_remote
-	fn_set_config_vars
-	fn_list_config_locations
 elif [ "${shortname}" == "vr" ]; then
 	array_configs+=(ServerHostSettings.json)
 	fn_default_config_remote
