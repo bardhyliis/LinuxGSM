@@ -6,7 +6,7 @@
 # Description: Creates an rsnapshot backup instead of a compressed archive.
 
 commandname="BACKUP"
-commandaction="Backup (rsnapshot)"
+commandaction="Backup"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
@@ -75,7 +75,7 @@ retain	daily	10
 
 rsync_long_args	--relative --delete --delete-excluded
 
-lockfile	/var/run/rsnapshot-${selfname}.pid
+lockfile	/data/backups/rsnapshot-${selfname}.pid
 
 # Backup source: everything inside serverfiles
 backup	/data/serverfiles/./	./
@@ -86,7 +86,7 @@ exclude	*.tmp
 
 # Logging
 loglevel	3
-logfile	/var/log/rsnapshot-${selfname}.log
+logfile	/data/backups/rsnapshot-${selfname}.log
 EOF
 
     fn_print_ok "rsnapshot config created"
@@ -213,7 +213,7 @@ fn_backup_check_lockfile
 fn_backup_create_lockfile
 fn_backup_init
 fn_backup_stop_server
-fn_backup_dir
+fn_backup_dirclear
 fn_backup_create_rsnapshot_conf
 fn_backup_rsnapshot
 fn_backup_start_server
