@@ -241,6 +241,8 @@ elif [ "${alert}" == "update-linuxgsm" ]; then
 	fn_alert_update_linuxgsm
 elif [ "${alert}" == "backup" ]; then
 	fn_alert_backup
+elif [ "${alert}" == "restore" ]; then
+	fn_alert_restore
 else
 	fn_print_fail_nl "Missing alert type"
 	fn_script_log_fail "Missing alert type"
