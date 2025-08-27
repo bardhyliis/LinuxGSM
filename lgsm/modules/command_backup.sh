@@ -100,22 +100,22 @@ fn_backup_init() {
 }
 
 fn_backup_stop_server() {
-	check_status.sh
-	# Server is running but will not be stopped.
-	if [ "${status}" != "0" ]; then
-		fn_print_warn_nl "${selfname} is currently running"
-		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
-		fn_script_log_warn "${selfname} is currently running"
-		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
-	# Server is running and will be stopped if stoponbackup=on or unset.
-	# If server is started
-	# elif [ "${status}" != "0" ]; then
-	# 	fn_print_restart_warning
-	# 	startserver="1"
-	# 	exitbypass=1
-	# 	command_stop.sh
-	# 	fn_firstcommand_reset
-	fi
+        check_status.sh
+        # Server is running but will not be stopped.
+        if [ "${status}" != "0" ]; then
+                fn_print_warn_nl "${selfname} is currently running"
+                echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
+                fn_script_log_warn "${selfname} is currently running"
+                fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
+        # Server is running and will be stopped if stoponbackup=on or unset.
+        # If server is started
+        # elif [ "${status}" != "0" ]; then
+        #       fn_print_restart_warning
+        #       startserver="1"
+        #       exitbypass=1
+        #       command_stop.sh
+        #       fn_firstcommand_reset
+        fi
 }
 
 fn_backup_dir() {
@@ -134,6 +134,68 @@ fn_backup_create_lockfile() {
     trap fn_backup_trap INT
 }
 
+fn_update_symbolic_links(){
+   # Paths
+    SNAPSHOT_DIR="/data/backups/snapshots"
+    TIMESTAMP_DIR="/data/backups/timestamps"
+    LINK_DIR="/data/backups/links"
+
+    mkdir -p "$TIMESTAMP_DIR" "$LINK_DIR"
+
+    # --- Rotate timestamp files in sync with snapshot rotation ---
+    for interval in daily weekly monthly; do
+        # Find snapshot files matching the interval
+        snaps=($(ls -d "$SNAPSHOT_DIR"/${interval}.[0-9]* 2>/dev/null | sort -r)) # descending
+        for snap in "${snaps[@]}"; do
+            base=$(basename "$snap")
+            num=${base##*.} # extract number, e.g., daily.0 -> 0
+            old_ts="$TIMESTAMP_DIR/${interval}.$num.txt"
+
+            if [ "$num" -gt 0 ]; then
+                prev_num=$((num - 1))
+                prev_ts="$TIMESTAMP_DIR/${interval}.$prev_num.txt"
+                if [ -f "$prev_ts" ]; then
+                    # move previous timestamp forward
+                    mv -f "$prev_ts" "$old_ts"
+                else
+                    # fallback: create timestamp from snapshot mod time
+                    ts=$(stat -c %y "$SNAPSHOT_DIR/${interval}.$prev_num" | cut -d'.' -f1 | tr ' ' '_')
+                    echo "$ts" > "$old_ts"
+                fi
+            fi
+        done
+
+        # Create timestamp for the new .0 snapshot
+        if [ -d "$SNAPSHOT_DIR/${interval}.0" ]; then
+            echo "$(date +"%Y-%m-%d_%H-%M-%S")" > "$TIMESTAMP_DIR/${interval}.0.txt"
+        fi
+    done
+
+    # --- Rebuild symlinks ---
+    rm -f "$LINK_DIR"/*
+
+    for interval in daily weekly monthly; do
+        snaps=($(ls -d "$SNAPSHOT_DIR"/${interval}.[0-9]* 2>/dev/null | sort)) # ascending: 0 -> N
+        for snap in "${snaps[@]}"; do
+            base=$(basename "$snap")
+            num=${base##*.}
+            ts_file="$TIMESTAMP_DIR/${interval}.$num.txt"
+
+            if [ -f "$ts_file" ]; then
+                timestamp=$(cat "$ts_file")
+            else
+                # fallback: snapshot mod time
+                timestamp=$(stat -c %y "$snap" | cut -d'.' -f1 | tr ' ' '_')
+            fi
+
+            linkname="${interval}-${timestamp}"
+            ln -sfn "$SNAPSHOT_DIR/$base" "$LINK_DIR/$linkname"
+        done
+    done
+
+    echo "[INFO] rsnapshot links updated successfully."
+}
+
 # === MAIN RSNAPSHOT BACKUP ===
 fn_backup_rsnapshot() {
     local rsnapconf="/data/backups/configuration/rsnapshot-${selfname}.conf"
@@ -143,71 +205,20 @@ fn_backup_rsnapshot() {
         core_exit.sh
     fi
 
-    fn_print_info "Using rsnapshot config: ${rsnapconf}"
+    fn_print_info_nl "Using rsnapshot config: ${rsnapconf}"
     fn_script_log_info "Running: rsnapshot -c ${rsnapconf} daily"
 
     if rsnapshot -c "${rsnapconf}" daily; then
-        fn_print_ok "rsnapshot backup completed"
+        fn_print_ok_nl "rsnapshot backup completed"
         fn_script_log_pass "Backup completed using rsnapshot (daily)"
 
-        # --- Create/update date symlinks in /data/backups/links ---
-        # Why we create symlinks:
-        # 1. Each snapshot folder created by rsnapshot is named daily.0, daily.1, etc.
-        #    These names rotate with each backup, so daily.0 always points to the newest snapshot.
-        # 2. To keep a permanent reference to the snapshot taken at a specific date/time,
-        #    we create a symlink named with the folder's creation UTC timestamp (YYYYMMDDTHHMMSSZ)
-        #    that points to the actual snapshot folder.
-        # 3. This way, even after rotation, each timestamped symlink points to the correct snapshot folder.
+        # update symbolic links
+        fn_update_symbolic_links
 
-        local links_dir="/data/backups/links"
-        mkdir -p "${links_dir}"
-
-        # --- Add a creation timestamp to the latest snapshot ---
-        snapshots_dir="/data/backups/snapshots"
-        links_dir="/data/backups/links"
-        latest_snapshot=$(readlink -f "$snapshots_dir/daily.0")
-
-        # Ensure latest snapshot always has a fresh timestamp
-        echo "$(date -u +'%Y%m%dT%H%M%SZ')" > "${latest_snapshot}/.created_at"
-
-        # --- Update symlinks for all snapshots ---
-        for snap in "$snapshots_dir"/daily.*; do
-            [ -d "$snap" ] || continue
-            if [ -f "$snap/.created_at" ]; then
-                timestamp=$(cat "$snap/.created_at")
-            else
-                timestamp=$(date -u +"%Y%m%dT%H%M%SZ")
-                echo "$timestamp" > "$snap/.created_at"
-            fi
-            ln -sfn "$snap" "${links_dir}/${timestamp}"
-            fn_script_log_info "Updated symlink: ${links_dir}/${timestamp} -> $snap"
-        done
-
-        # --- Cleanup orphaned symlinks ---
-        for link in "$links_dir"/*; do
-            [ -L "$link" ] || continue   # only process symlinks
-            ts=$(basename "$link")
-
-            found=false
-            for snap in "$snapshots_dir"/daily.*; do
-                [ -d "$snap" ] || continue
-                if [ -f "$snap/.created_at" ] && [ "$ts" = "$(cat "$snap/.created_at")" ]; then
-                    found=true
-                    break
-                fi
-            done
-
-            if [ "$found" = false ]; then
-                rm -f "$link"
-                fn_script_log_info "Removed orphaned symlink: $link"
-            fi
-        done
-
-        # Trigger alert
         alert="backup"
         alert.sh
     else
-        fn_print_fail "rsnapshot backup failed"
+        fn_print_fail_nl "rsnapshot backup failed"
         fn_script_log_fail "Backup failed using rsnapshot (daily)"
         core_exit.sh
     fi
