@@ -167,7 +167,7 @@ fn_update_symbolic_links(){
 
         # Create timestamp for the new .0 snapshot
         if [ -d "$SNAPSHOT_DIR/${interval}.0" ]; then
-            echo "$(date +"%Y-%m-%d_%H-%M-%S")" > "$TIMESTAMP_DIR/${interval}.0.txt"
+            echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$TIMESTAMP_DIR/${interval}.0.txt"
         fi
     done
 
