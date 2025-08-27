@@ -62,31 +62,31 @@ fn_backup_create_rsnapshot_conf() {
     cat > "${rsnapconf}" <<EOF
 # Auto-generated rsnapshot config for LinuxGSM server
 # Can be updated
-config_version	1.2
+config_version  1.2
 
-cmd_rsync	/usr/bin/rsync
-cmd_cp	/bin/cp
+cmd_rsync       /usr/bin/rsync
+cmd_cp  /bin/cp
 
 # Store actual snapshots here
-snapshot_root	/data/backups/snapshots
+snapshot_root   /data/backups/snapshots
 
 # Retention policy: last 10 daily snapshots
-retain	daily	10
+retain  daily   10
 
-rsync_long_args	--relative --delete --delete-excluded
+rsync_long_args --relative --delete --delete-excluded
 
-lockfile	/var/run/rsnapshot-${selfname}.pid
+lockfile        /data/backups/rsnapshot-${selfname}.pid
 
 # Backup source: everything inside serverfiles
-backup	/data/serverfiles/./	./
+backup  /data/serverfiles/./    ./
 
 # Optional exclusions
-exclude	*.log
-exclude	*.tmp
+exclude *.log
+exclude *.tmp
 
 # Logging
-loglevel	3
-logfile	/var/log/rsnapshot-${selfname}.log
+loglevel        3
+logfile /data/backups/rsnapshot-${selfname}.log
 EOF
 
     fn_print_ok "rsnapshot config created"
@@ -100,25 +100,28 @@ fn_backup_init() {
 }
 
 fn_backup_stop_server() {
-    check_status.sh
-    if [ "${stoponbackup}" == "off" ]; then
-    	if [ "${status}" != "0" ]; then
-        	fn_print_warn_nl "${selfname} is running, backup while live may risk corruption."
-            fn_script_log_warn "Backup taken while server is running"
-        fi
-    elif [ "${status}" != "0" ]; then
-    	fn_print_restart_warning
-        startserver="1"
-        exitbypass=1
-        command_stop.sh
-        fn_firstcommand_reset
-    fi
+	check_status.sh
+	# Server is running but will not be stopped.
+	if [ "${status}" != "0" ]; then
+		fn_print_warn_nl "${selfname} is currently running"
+		echo -e "* Although unlikely; creating a backup while ${selfname} is running might corrupt the backup."
+		fn_script_log_warn "${selfname} is currently running"
+		fn_script_log_warn "Although unlikely; creating a backup while ${selfname} is running might corrupt the backup"
+	# Server is running and will be stopped if stoponbackup=on or unset.
+	# If server is started
+	# elif [ "${status}" != "0" ]; then
+	# 	fn_print_restart_warning
+	# 	startserver="1"
+	# 	exitbypass=1
+	# 	command_stop.sh
+	# 	fn_firstcommand_reset
+	fi
 }
 
 fn_backup_dir() {
     # Create lockfile directory if missing
     if [ ! -d "${lockdir}" ]; then
-    	mkdir -p "${lockdir}"
+        mkdir -p "${lockdir}"
     fi
 }
 
@@ -128,7 +131,7 @@ fn_backup_create_lockfile() {
     fn_script_log_info "Backup lockfile generated: ${lockdir}/backup.lock (PID $$)"
 
     # Trap to remove lockfile on quit
-    trap fn_backup_trap INT TERM EXIT
+    trap fn_backup_trap INT
 }
 
 # === MAIN RSNAPSHOT BACKUP ===
@@ -160,31 +163,44 @@ fn_backup_rsnapshot() {
         mkdir -p "${links_dir}"
 
         # --- Add a creation timestamp to the latest snapshot ---
-		snapshots_dir="/data/backups/snapshots"
-        latest_snapshot="${snapshots_dir}/daily.0"
+        snapshots_dir="/data/backups/snapshots"
+        links_dir="/data/backups/links"
+        latest_snapshot=$(readlink -f "$snapshots_dir/daily.0")
 
-        # Ensure the snapshot folder exists before writing
-        if [ -d "$latest_snapshot" ]; then
-        	if [ ! -f "${latest_snapshot}/.created_at" ]; then
-            	# Compact UTC format: 20250826T081654Z
-                date -u +"%Y%m%dT%H%M%SZ" > "${latest_snapshot}/.created_at"
-        	fi
-        else
-            fn_print_fail "Latest snapshot folder not found: ${latest_snapshot}"
-            fn_script_log_fail "Latest snapshot folder not found: ${latest_snapshot}"
-        fi
+        # Ensure latest snapshot always has a fresh timestamp
+        echo "$(date -u +'%Y%m%dT%H%M%SZ')" > "${latest_snapshot}/.created_at"
 
         # --- Update symlinks for all snapshots ---
-        for snap in "${snapshots_dir}"/daily.*; do
-        	[ -d "$snap" ] || continue
+        for snap in "$snapshots_dir"/daily.*; do
+            [ -d "$snap" ] || continue
             if [ -f "$snap/.created_at" ]; then
-            	timestamp=$(cat "$snap/.created_at")
+                timestamp=$(cat "$snap/.created_at")
             else
-            	timestamp=$(date -u +"%Y%m%dT%H%M%SZ")
-            	echo "$timestamp" > "$snap/.created_at"
-        	fi
+                timestamp=$(date -u +"%Y%m%dT%H%M%SZ")
+                echo "$timestamp" > "$snap/.created_at"
+            fi
             ln -sfn "$snap" "${links_dir}/${timestamp}"
             fn_script_log_info "Updated symlink: ${links_dir}/${timestamp} -> $snap"
+        done
+
+        # --- Cleanup orphaned symlinks ---
+        for link in "$links_dir"/*; do
+            [ -L "$link" ] || continue   # only process symlinks
+            ts=$(basename "$link")
+
+            found=false
+            for snap in "$snapshots_dir"/daily.*; do
+                [ -d "$snap" ] || continue
+                if [ -f "$snap/.created_at" ] && [ "$ts" = "$(cat "$snap/.created_at")" ]; then
+                    found=true
+                    break
+                fi
+            done
+
+            if [ "$found" = false ]; then
+                rm -f "$link"
+                fn_script_log_info "Removed orphaned symlink: $link"
+            fi
         done
 
         # Trigger alert
@@ -199,7 +215,7 @@ fn_backup_rsnapshot() {
 
 fn_backup_start_server() {
     if [ -n "${startserver}" ]; then
-    	exitbypass=1
+        exitbypass=1
         command_start.sh
         fn_firstcommand_reset
     fi
