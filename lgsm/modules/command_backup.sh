@@ -58,35 +58,35 @@ fn_backup_create_rsnapshot_conf() {
     mkdir -p /data/backups/links
     mkdir -p /data/backups/configuration
 
-    # Write rsnapshot config
+    # Write rsnapshot config, contains tabs.
     cat > "${rsnapconf}" <<EOF
 # Auto-generated rsnapshot config for LinuxGSM server
 # Can be updated
-config_version  1.2
+config_version	1.2
 
-cmd_rsync   /usr/bin/rsync
-cmd_cp  /bin/cp
+cmd_rsync	/usr/bin/rsync
+cmd_cp	/bin/cp
 
 # Store actual snapshots here
-snapshot_root   /data/backups/snapshots
+snapshot_root	/data/backups/snapshots
 
 # Retention policy: last 10 daily snapshots
-retain  daily   10
+retain	daily	10
 
-rsync_long_args --relative  --delete    --delete-excluded
+rsync_long_args	--relative	--delete	--delete-excluded
 
-lockfile    /data/backups/rsnapshot-${selfname}.pid
+lockfile	/data/backups/rsnapshot-${selfname}.pid
 
 # Backup source: everything inside serverfiles
-backup  /data/serverfiles/./    ./
+backup	/data/serverfiles/./	./
 
 # Optional exclusions
-exclude *.log
-exclude *.tmp
+exclude	*.log
+exclude	*.tmp
 
 # Logging
-loglevel    3
-logfile /data/backups/rsnapshot-${selfname}.log
+loglevel	3
+logfile	/data/backups/rsnapshot-${selfname}.log
 EOF
 
     fn_print_ok "rsnapshot config created"
