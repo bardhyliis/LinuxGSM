@@ -64,7 +64,7 @@ fn_backup_create_rsnapshot_conf() {
 # Can be updated
 config_version  1.2
 
-cmd_rsync       /usr/bin/rsync
+cmd_rsync   /usr/bin/rsync
 cmd_cp  /bin/cp
 
 # Store actual snapshots here
@@ -73,9 +73,9 @@ snapshot_root   /data/backups/snapshots
 # Retention policy: last 10 daily snapshots
 retain  daily   10
 
-rsync_long_args --relative --delete --delete-excluded
+rsync_long_args --relative  --delete    --delete-excluded
 
-lockfile        /data/backups/rsnapshot-${selfname}.pid
+lockfile    /data/backups/rsnapshot-${selfname}.pid
 
 # Backup source: everything inside serverfiles
 backup  /data/serverfiles/./    ./
@@ -85,7 +85,7 @@ exclude *.log
 exclude *.tmp
 
 # Logging
-loglevel        3
+loglevel    3
 logfile /data/backups/rsnapshot-${selfname}.log
 EOF
 
