@@ -172,26 +172,26 @@ fn_update_symbolic_links(){
     done
 
     # --- Rebuild symlinks ---
-    rm -f "$LINK_DIR"/*
+    #rm -f "$LINK_DIR"/*
 
-    for interval in daily weekly monthly; do
-        snaps=($(ls -d "$SNAPSHOT_DIR"/${interval}.[0-9]* 2>/dev/null | sort)) # ascending: 0 -> N
-        for snap in "${snaps[@]}"; do
-            base=$(basename "$snap")
-            num=${base##*.}
-            ts_file="$TIMESTAMP_DIR/${interval}.$num.txt"
+    #for interval in daily weekly monthly; do
+    #    snaps=($(ls -d "$SNAPSHOT_DIR"/${interval}.[0-9]* 2>/dev/null | sort)) # ascending: 0 -> N
+    #   for snap in "${snaps[@]}"; do
+    #        base=$(basename "$snap")
+    #        num=${base##*.}
+    #        ts_file="$TIMESTAMP_DIR/${interval}.$num.txt"
 
-            if [ -f "$ts_file" ]; then
-                timestamp=$(cat "$ts_file")
-            else
+    #        if [ -f "$ts_file" ]; then
+    #            timestamp=$(cat "$ts_file")
+    #        else
                 # fallback: snapshot mod time
-                timestamp=$(stat -c %y "$snap" | cut -d'.' -f1 | tr ' ' '_')
-            fi
+    #            timestamp=$(stat -c %y "$snap" | cut -d'.' -f1 | tr ' ' '_')
+    #        fi
 
-            linkname="${interval}-${timestamp}"
-            ln -sfn "$SNAPSHOT_DIR/$base" "$LINK_DIR/$linkname"
-        done
-    done
+    #        linkname="${interval}-${timestamp}"
+    #        ln -sfn "$SNAPSHOT_DIR/$base" "$LINK_DIR/$linkname"
+    #    done
+    #done
 
     echo "[INFO] rsnapshot links updated successfully."
 }

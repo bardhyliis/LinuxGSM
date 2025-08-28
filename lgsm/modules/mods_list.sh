@@ -117,6 +117,9 @@ zaupfeast_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $P
 # Terraria
 tshock_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/Pryaxis/TShock/releases/latest | jq -r '.assets[]|select(.browser_download_url | contains("linux-amd64-Release.zip")) | .browser_download_url')
 
+# Factorio
+clusterio_latestlink=$(curl --connect-timeout 3 -sL -H "Authorization: Bearer $PAT" https://api.github.com/repos/Clusterio/Clusterio/releases/latest | jq -r '.tarball_url')
+
 # Minecraft: Java
 # neoforgedownloadurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/VERSION/neoforge-VERSION-installer.jar"
 # neoforgeurl="${neoforgedownloadurl}"
@@ -165,7 +168,10 @@ modseparator="MOD"
 #   - mod_subdir = the subdirectory inside the mod folder where files are located
 #   - parentFolderIncluded = 1 to include the folder itself, 0 to exclude it.
 
-#Terraria
+# Factorio
+mod_info_clusterio=(MOD "clusterio" "Clusterio" "${clusterio_latestlink}" "clusterio_linux.tar.gz" "0" "LowercaseOff" "${systemdir}/mods" "OVERWRITE" "ENGINES" "Factorio;" "NOTGAMES" "https://github.com/Clusterio/Clusterio" "Clusterio is a Factorio server manager enabling cross-server interactions." "0" "0")
+
+# Terraria
 mod_info_tshock=(MOD "tshock" "TShock" "${tshock_latestlink}" "tshock_linux.zip" "0" "LowercaseOff" "${systemdir}/TShock" "OVERWRITE" "ENGINES" "Terraria;" "NOTGAMES" "https://github.com/Pryaxis/TShock" "Admin tools and plugins framework for Terraria servers" "TShock-Beta-linux-x64-Release.tar|tshock" "0")
 
 # Unturned
@@ -254,4 +260,4 @@ mod_info_valheimplus=(MOD "valheimplus" "Valheim PLUS" "${valheimpluslatestlink}
 mod_info_bepinexvh=(MOD "bepinexvh" "BepInEx Valheim" "${bepinexvhlatestlink}" "denikson-BepInExPack_Valheim.zip" "0" "LowercaseOff" "${systemdir}" "OVERWRITE" "ENGINES" "Valheim;" "NOTGAMES" "https://valheim.thunderstore.io/package/denikson/BepInExPack_Valheim/" "Unity / XNA game patcher and plugin framework")
 
 # REQUIRED: Set all mods info into the global array
-mods_global_array=("${mod_info_uessentials[@]}" "${mod_info_zaupfeast[@]}" "${mod_info_luaforbarotrauma[@]}" "${mod_info_tshock[@]}" "${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}" "${mod_info_neoforge[@]}")
+mods_global_array=("${mod_info_clusterio[@]}" "${mod_info_uessentials[@]}" "${mod_info_zaupfeast[@]}" "${mod_info_luaforbarotrauma[@]}" "${mod_info_tshock[@]}" "${mod_info_metamod[@]}" "${mod_info_base_amxx[@]}" "${mod_info_cs_amxx[@]}" "${mod_info_dod_amxx[@]}" "${mod_info_tfc_amxx[@]}" "${mod_info_ns_amxx[@]}" "${mod_info_ts_amxx[@]}" "${mod_info_metamodsource[@]}" "${mod_info_sourcemod[@]}" "${mod_info_steamworks[@]}" "${mod_info_gokz[@]}" "${mod_info_ttt[@]}" "${mod_info_get5[@]}" "${mod_info_prac[@]}" "${mod_info_pug[@]}" "${mod_info_dhook[@]}" "${mod_info_movement[@]}" "${mod_info_cleaner[@]}" "${mod_info_ulib[@]}" "${mod_info_ulx[@]}" "${mod_info_utime[@]}" "${mod_info_uclip[@]}" "${mod_info_acf[@]}" "${mod_info_acf_missiles[@]}" "${mod_info_acf_sweps[@]}" "${mod_info_advdupe2[@]}" "${mod_info_pac3[@]}" "${mod_info_wiremod[@]}" "${mod_info_wiremodextras[@]}" "${mod_info_darkrp[@]}" "${mod_info_darkrpmodification[@]}" "${mod_info_rustcarbon[@]}" "${mod_info_rustoxide[@]}" "${mod_info_hwoxide[@]}" "${mod_info_sdtdoxide[@]}" "${mod_info_advduplicator[@]}" "${mod_info_trackassemblytool[@]}" "${mod_info_physpropertiesadv[@]}" "${mod_info_controlsystemse2[@]}" "${mod_info_e2pistontiming[@]}" "${mod_info_propcannontool[@]}" "${mod_info_gearassemblytool[@]}" "${mod_info_spinnertool[@]}" "${mod_info_surfacefrictiontool[@]}" "${mod_info_magneticdipole[@]}" "${mod_info_environmentorganizer[@]}" "${mod_info_precision_alignment[@]}" "${mod_info_improved_stacker[@]}" "${mod_info_improved_weight[@]}" "${mod_info_improved_antinoclip[@]}" "${mod_info_laserstool[@]}" "${mod_info_valheimplus[@]}" "${mod_info_bepinexvh[@]}" "${mod_info_neoforge[@]}")
