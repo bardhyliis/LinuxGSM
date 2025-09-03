@@ -145,8 +145,8 @@ fn_dl_steamcmd() {
 		fi
 
 		if [ "${counter}" -gt "10" ]; then
-			fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retrys"
-			fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retrys"
+			fn_print_failure_nl "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retries"
+			fn_script_log_fail "${commandaction} ${selfname}: ${remotelocation}: Did not complete the download, too many retries"
 			core_exit.sh
 		fi
 	done
@@ -473,6 +473,60 @@ fn_fetch_file() {
 			source "${local_filedir}/${local_filename}"
 		fi
 	fi
+}
+
+fn_fetch_steam_workshop_file() {
+    modid="${1}"       # Steam Workshop ID
+    modname="${2}"     # Friendly name (for logs)
+    forcedl="${3}"     # Pass "forcedl" to force redownload
+
+    workshop_dir="${steamcmddir}/steamapps/workshop/content/${appid}/${modid}"
+
+    # Download if missing or forced
+    if [ ! -d "${workshop_dir}" ] || [ "${forcedl}" == "forcedl" ]; then
+        # Trap to clean up partial downloads
+        trap fn_fetch_trap INT
+
+        echo -e "Downloading Workshop item [ ${italic}${modname}${default} ] (ID: ${modid})"
+        fn_sleep_time
+
+        # Run SteamCMD download
+        ${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +workshop_download_item "${appid}" "${modid}" validate +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+        exitcode=$?
+
+        if [ "${exitcode}" -ne 0 ]; then
+            if [ ${counter} -ge 2 ]; then
+                fn_print_fail_eol_nl
+                if [ -f "${lgsmlog}" ]; then
+                    fn_script_log_fail "Downloading Workshop item ${modid} (${modname}) failed."
+                fi
+                core_exit.sh
+            else
+                fn_print_error_eol_nl
+                if [ -f "${lgsmlog}" ]; then
+                    fn_script_log_error "Retrying Workshop item ${modid} (${modname})."
+                fi
+            fi
+        else
+            fn_print_ok_eol_nl
+            if [ -f "${lgsmlog}" ]; then
+                fn_script_log_pass "Downloaded Workshop item ${modid} (${modname})."
+            fi
+            # Remove trap
+            trap - INT
+            break
+        fi
+    fi
+
+    # If download succeeded
+    if [ -d "${workshop_dir}" ]; then
+        fn_dl_hash  # verify checksum if you have that implemented
+
+        # Copy/move into server mod folder if required
+        if [ "${install_to_server}" == "1" ]; then
+            cp -r "${workshop_dir}" "${servermoddir}/"
+        fi
+    fi
 }
 
 # GitHub file download modules.
