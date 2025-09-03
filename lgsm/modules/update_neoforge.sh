@@ -46,12 +46,12 @@ fn_update_remotebuild() {
 	apiurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml"
 
 	# Determine version to install
-	if [ "${mcversion}" == "latest" ]; then
+	if [ "${serverversion}" == "latest" ]; then
 		# Fetch latest release version
 		remotebuildmcversion=$(curl -s "${apiurl}" | xmllint --xpath "string(//metadata/versioning/release)" -)
 	else
 		# Use the user-specified version
-		remotebuildmcversion="${mcversion}"
+		remotebuildmcversion="${serverversion}"
 	fi
 
 	# Set build info

@@ -44,16 +44,16 @@ fn_update_localbuild() {
 fn_update_remotebuild() {
     # Fetch Purpur manifest and determine latest or specific version
     manifest=$(curl -s "${PURPUR_API_MANIFEST}")
-    if [ "${mcversion}" == "latest" ]; then
+    if [ "${serverversion}" == "latest" ]; then
         remotebuildversion=$(echo "${manifest}" | jq -r '.metadata.current')
     else
         # Validate requested version exists
-        exists=$(echo "${manifest}" | jq -r --arg ver "${mcversion}" '.versions[] | select(.==$ver)')
+        exists=$(echo "${manifest}" | jq -r --arg ver "${serverversion}" '.versions[] | select(.==$ver)')
         if [ -z "${exists}" ]; then
-            fn_print_fail "Requested version ${mcversion} does not exist"
+            fn_print_fail "Requested version ${serverversion} does not exist"
             core_exit.sh
         fi
-        remotebuildversion="${mcversion}"
+        remotebuildversion="${serverversion}"
     fi
 
     remotebuildfilename="purpur-${remotebuildversion}.jar"

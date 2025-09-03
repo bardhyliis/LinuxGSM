@@ -37,15 +37,15 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	# Resolve mcversion if set to "latest"
-	if [ "${mcversion}" == "latest" ]; then
+	# Resolve serverversion if set to "latest"
+	if [ "${serverversion}" == "latest" ]; then
 		gamejson=$(curl -s "https://meta.fabricmc.net/v2/versions/game")
 		remotebuildversion=$(echo "${gamejson}" | jq -r '[.[] | select(.stable==true)][0].version')
 	else
-		remotebuildversion="${mcversion}"
+		remotebuildversion="${serverversion}"
 	fi 
 
-	# Get latest installer and loader for that mcversion
+	# Get latest installer and loader for that serverversion
 	apiurl="https://meta.fabricmc.net/v2/versions"
 	installerjson=$(curl -s "${apiurl}/installer")
 	loaderjson=$(curl -s "${apiurl}/loader/${remotebuildversion}")
