@@ -167,12 +167,7 @@ modseparator="MOD"
 #   - mod_subdir = the subdirectory inside the mod folder where files are located
 #   - parentFolderIncluded = 1 to include the folder itself, 0 to exclude it.
 
-# [16]  | "Workshop mod" indicates if this mod will be downloaded from the steam's workshop.
-
-# [17]  | ""
-
-# ARK: Survival Evolved
-mod_info_survivals_rag_extension=(MOD "survivalsragextension" "Survivals Rag Extension" "${survivals_rag_extension_id}" "" "" "" "${systemdir}/mods" "" "" "ARK: Survival Evolved;" "" "https://steamcommunity.com/sharedfiles/filedetails/?id=3555036878" "New Arenas, New crystal island, Custom biomes and more." "0" "0" "1")
+# [16]  | "Workshop mod id" is the id used for download the mod from steam workshop.
 
 # Factorio
 mod_info_clusterio=(MOD "clusterio" "Clusterio" "${clusterio_latestlink}" "clusterio_linux.tar.gz" "0" "LowercaseOff" "${systemdir}/mods" "OVERWRITE" "ENGINES" "Factorio;" "NOTGAMES" "https://github.com/Clusterio/Clusterio" "Clusterio is a Factorio server manager enabling cross-server interactions." "0" "0" "0")

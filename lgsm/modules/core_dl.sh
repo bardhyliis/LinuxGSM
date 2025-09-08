@@ -475,10 +475,10 @@ fn_fetch_file() {
 	fi
 }
 
-fn_fetch_steam_workshop_file() {
+fn_fetch_workshop_file() {
     modid="${1}"       # Steam Workshop ID
     modname="${2}"     # Friendly name (for logs)
-    forcedl="${3}"     # Pass "forcedl" to force redownload
+    forcedl="${5}"     # Pass "forcedl" to force redownload
 
     workshop_dir="${steamcmddir}/steamapps/workshop/content/${appid}/${modid}"
 
@@ -491,7 +491,7 @@ fn_fetch_steam_workshop_file() {
         fn_sleep_time
 
         # Run SteamCMD download
-        ${unbuffer} ${steamcmdcommand} +login "${steamuser}" "${steampass}" +workshop_download_item "${appid}" "${modid}" validate +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
+        ${unbuffer} ${steamcmdcommand} +login anonymous +workshop_download_item "${appid}" "${modid}" validate +quit | uniq | tee -a "${lgsmlog}" "${steamcmdlog}"
         exitcode=$?
 
         if [ "${exitcode}" -ne 0 ]; then

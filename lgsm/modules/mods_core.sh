@@ -18,24 +18,33 @@ modsinstalledlistfullpath="${modsdir}/${modsinstalledlist}"
 
 # Download management.
 fn_mod_install_files() {
-	fn_fetch_file "${modurl}" "" "" "" "${modstmpdir}" "${modfilename}"
-	# Check if variable is valid checking if file has been downloaded and exists.
-	if [ ! -f "${modstmpdir}/${modfilename}" ]; then
-		fn_print_failure "An issue occurred downloading ${modprettyname}"
-		fn_script_log_fail "An issue occurred downloading ${modprettyname}"
-		core_exit.sh
-	fi
-	if [ ! -d "${extractdest}" ]; then
-		mkdir -p "${extractdest}"
-	fi
-	fn_dl_extract "${modstmpdir}" "${modfilename}" "${modstmpdir}"
+	if [ $workshopmodid != "0" ]; then
+		fn_fetch_workshop_file "${workshopmodid}" "${modprettyname}" ""
+		if [ ! -d "${steamcmddir}/steamapps/workshop/content/${appid}/${workshopmodid}" ]; then
+			fn_print_failure "An issue occurred downloading ${modprettyname}"
+			fn_script_log_fail "An issue occurred downloading ${modprettyname}"
+			core_exit.sh
+		fi
+	else
+		fn_fetch_file "${modurl}" "" "" "" "${modstmpdir}" "${modfilename}"
+		# Check if variable is valid checking if file has been downloaded and exists.
+		if [ ! -f "${modstmpdir}/${modfilename}" ]; then
+			fn_print_failure "An issue occurred downloading ${modprettyname}"
+			fn_script_log_fail "An issue occurred downloading ${modprettyname}"
+			core_exit.sh
+		fi
+		if [ ! -d "${extractdest}" ]; then
+			mkdir -p "${extractdest}"
+		fi
+		fn_dl_extract "${modstmpdir}" "${modfilename}" "${modstmpdir}"
 
-	# Split special_handling into modfile and keyword (ignore keyword here)
-	IFS="|" read -r modfile modkeyword <<< "$modhandlemode"
+		# Split special_handling into modfile and keyword (ignore keyword here)
+		IFS="|" read -r modfile modkeyword <<< "$modhandlemode"
 
-	# Only extract if modfile is not "0"
-	if [ "$modfile" != "0" ]; then
-		fn_dl_extract "${modstmpdir}" "$modfile" "${extractdest}"
+		# Only extract if modfile is not "0"
+		if [ "$modfile" != "0" ]; then
+			fn_dl_extract "${modstmpdir}" "$modfile" "${extractdest}"
+		fi
 	fi
 }
 
@@ -82,19 +91,24 @@ fn_mod_create_filelist() {
 	fn_sleep_time
 	# ${modsdir}/${modcommand}-files.txt.
 
-	# Split into array using pipe
-	IFS="|" read -r subdir includeDir <<< "$modsubdir"
-
-	if [ -z "$subdir" ] || [ "$subdir" == "0" ]; then
-		# Case: modsubdir is "0" or empty → list everything
-		find "${extractdest}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
+	if [ $workshopmodid != "0" ]; then
+    	workshop_dir="${steamcmddir}/steamapps/workshop/content/${appid}/${workshopmodid}"
+		find "${workshop_dir}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
 	else
-		if [ "$includeDir" == "0" ]; then
-			# List only contents inside the subdir
-			find "${extractdest}/${subdir}" -mindepth 1 -printf "%P\n" > "${modsdir}/${modcommand}-files.txt"
+		# Split into array using pipe
+		IFS="|" read -r subdir includeDir <<< "$modsubdir"
+
+		if [ -z "$subdir" ] || [ "$subdir" == "0" ]; then
+			# Case: modsubdir is "0" or empty → list everything
+			find "${extractdest}" -mindepth 1 -printf '%P\n' > "${modsdir}/${modcommand}-files.txt"
 		else
-			# List including the directory itself (prefix subdir)
-			find "${extractdest}/${subdir}" -mindepth 0 -printf "${subdir}/%P\n" > "${modsdir}/${modcommand}-files.txt"
+			if [ "$includeDir" == "0" ]; then
+				# List only contents inside the subdir
+				find "${extractdest}/${subdir}" -mindepth 1 -printf "%P\n" > "${modsdir}/${modcommand}-files.txt"
+			else
+				# List including the directory itself (prefix subdir)
+				find "${extractdest}/${subdir}" -mindepth 0 -printf "${subdir}/%P\n" > "${modsdir}/${modcommand}-files.txt"
+			fi
 		fi
 	fi
 
@@ -118,19 +132,24 @@ fn_mod_copy_destination() {
 	echo -en "copying ${modprettyname} to ${modinstalldir}..."
 	fn_sleep_time
 
-	# Split into array using pipe
-	IFS="|" read -r subdir includeDir <<< "$modsubdir"
+	if [ $workshopmodid != "0" ]; then
+    	workshop_dir="${steamcmddir}/steamapps/workshop/content/${appid}/${workshopmodid}"
+		cp -Rf "${workshop_dir}/." "${modinstalldir}/"
+	else 
+		# Split into array using pipe
+		IFS="|" read -r subdir includeDir <<< "$modsubdir"
 
-	if [ -z "$subdir" ] || [ "$subdir" == "0" ]; then
-		# Case: modsubdir is "0" or empty → copy everything
-		cp -Rf "${extractdest}/." "${modinstalldir}/"
-	else
-		if [ "$includeDir" == "0" ]; then
-			# Copy only the contents inside the subdir
-			cp -Rf "${extractdest}/${subdir}/." "${modinstalldir}/"
+		if [ -z "$subdir" ] || [ "$subdir" == "0" ]; then
+			# Case: modsubdir is "0" or empty → copy everything
+			cp -Rf "${extractdest}/." "${modinstalldir}/"
 		else
-			# Copy including the directory itself
-			cp -Rf "${extractdest}/${subdir}" "${modinstalldir}/"
+			if [ "$includeDir" == "0" ]; then
+				# Copy only the contents inside the subdir
+				cp -Rf "${extractdest}/${subdir}/." "${modinstalldir}/"
+			else
+				# Copy including the directory itself
+				cp -Rf "${extractdest}/${subdir}" "${modinstalldir}/"
+			fi
 		fi
 	fi
 

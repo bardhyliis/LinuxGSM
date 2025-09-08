@@ -10,6 +10,15 @@ commandaction="Check for Update"
 moduleselfname="$(basename "$(readlink -f "${BASH_SOURCE[0]}")")"
 fn_firstcommand_set
 
+# If the environment variable INLINE_SERVERVERSION is set, use it as the serverversion.
+# This will override the value that would normally be read from instance.cfg.
+# If INLINE_SERVERVERSION is not set, the script continues normally using the configured server version.
+if [ -n "$INLINE_SERVERVERSION" ]; then
+	fn_print_info_nl "Using inline game version: $INLINE_SERVERVERSION"
+	#serverversion overwritten
+    serverversion="$INLINE_SERVERVERSION"
+fi
+
 fn_print_dots ""
 check.sh
 core_logs.sh
