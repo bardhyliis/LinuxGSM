@@ -55,7 +55,7 @@ fn_update_remotebuild() {
 	apiurl="https://net-secondary.web.minecraft-services.net/api/v1.0/download/links"
 	remotebuildresponse=$(curl -s "${apiurl}" | jq '.result.links[]')
 	# Latest preview.
-	if [ "${serverversion}" == "preview" ]; then
+	if [ "${serverbuildversion}" == "preview" ]; then
 		remotebuildurl=$(echo "${remotebuildresponse}" | jq -r 'select(.downloadType == "serverBedrockPreviewLinux") | .downloadUrl')
 	# Latest release.
 	else

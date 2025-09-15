@@ -492,8 +492,8 @@ fn_info_messages_gameserver() {
 		fi
 
 		# Server Version (Jedi Knight II: Jedi Outcast)
-		if [ -n "${serverversion}" ]; then
-			echo -e "${lightblue}Server Version:\t${default}${serverversion}"
+		if [ -n "${serverbuildversion}" ]; then
+			echo -e "${lightblue}Server Version:\t${default}${serverbuildversion}"
 		fi
 
 		# authentication token (Factorio)

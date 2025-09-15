@@ -53,13 +53,13 @@ fn_update_remotebuild() {
 	remotebuildfilename="quilt-installer-latest.jar"
 
 	# Determine remote version: use MC_VERSION if set, otherwise "latest"
-	if [ "${serverversion}" == "latest" ]; then
+	if [ "${serverbuildversion}" == "latest" ]; then
 		remotebuildversion=$(curl -s https://meta.quiltmc.org/v3/versions/game \
 			| jq -r '[.[] | select(.stable == true)]
 					| sort_by(.version | split(".") | map(tonumber? // 0))
 					| last.version')
 	else
-		remotebuildversion="${serverversion}"
+		remotebuildversion="${serverbuildversion}"
 	fi
 
 	if [ "${firstcommandname}" != "INSTALL" ]; then

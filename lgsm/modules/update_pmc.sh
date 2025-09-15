@@ -39,15 +39,15 @@ fn_update_remotebuild() {
 	# Get list of Minecraft versions for project.
 	remotebuildresponseproject=$(curl -s "${apiurl}/${paperproject}")
 	# Get latest Minecraft: Java Edition version or user specified version.
-	if [ "${serverversion}" == "latest" ]; then
+	if [ "${serverbuildversion}" == "latest" ]; then
 		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r '.versions[-1]')
 	else
 		# Checks if user specified version exists.
-		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r -e --arg serverversion "${serverversion}" '.versions[]|select(. == $serverversion)')
+		remotebuildmcversion=$(echo "${remotebuildresponseproject}" | jq -r -e --arg serverbuildversion "${serverbuildversion}" '.versions[]|select(. == $serverbuildversion)')
 		if [ -z "${remotebuildmcversion}" ]; then
 			# user passed version does not exist
-			fn_print_error_nl "Version ${serverversion} not available from ${remotelocation}"
-			fn_script_log_error "Version ${serverversion} not available from ${remotelocation}"
+			fn_print_error_nl "Version ${serverbuildversion} not available from ${remotelocation}"
+			fn_script_log_error "Version ${serverbuildversion} not available from ${remotelocation}"
 			core_exit.sh
 		fi
 	fi

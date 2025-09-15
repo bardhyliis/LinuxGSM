@@ -38,18 +38,18 @@ fn_update_remotebuild() {
 	apiurl="https://launchermeta.mojang.com/mc/game/version_manifest.json"
 	remotebuildresponse=$(curl -s "${apiurl}")
 	# Latest release.
-	if [ "${branch}" == "release" ] && [ "${serverversion}" == "latest" ]; then
+	if [ "${branch}" == "release" ] && [ "${serverbuildversion}" == "latest" ]; then
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.latest.release')
 	# Latest snapshot.
-	elif [ "${branch}" == "snapshot" ] && [ "${serverversion}" == "latest" ]; then
+	elif [ "${branch}" == "snapshot" ] && [ "${serverbuildversion}" == "latest" ]; then
 		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r '.latest.snapshot')
 	# Specific release/snapshot.
 	else
-		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg serverversion "${serverversion}" '.versions | .[] | select(.type==$branch and .id==$serverversion) | .id')
+		remotebuildversion=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg serverbuildversion "${serverbuildversion}" '.versions | .[] | select(.type==$branch and .id==$serverbuildversion) | .id')
 	fi
 	remotebuildfilename="minecraft_server.${remotebuildversion}.jar"
 	# Generate link to version manifest json.
-	remotebuildmanifest=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg serverversion "${remotebuildversion}" '.versions | .[] | select(.type==$branch and .id==$serverversion) | .url')
+	remotebuildmanifest=$(echo "${remotebuildresponse}" | jq -r --arg branch "${branch}" --arg serverbuildversion "${remotebuildversion}" '.versions | .[] | select(.type==$branch and .id==$serverbuildversion) | .url')
 	# Generate link to server.jar
 	remotebuildurl=$(curl -s "${remotebuildmanifest}" | jq -r '.downloads.server.url')
 

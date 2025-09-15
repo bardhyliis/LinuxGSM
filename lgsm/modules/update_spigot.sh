@@ -54,10 +54,10 @@ fn_update_localbuild() {
 
 fn_update_remotebuild() {
     # Spigot does not provide a JSON manifest; we rely on specifying version manually
-    if [ "${serverversion}" == "latest" ]; then
+    if [ "${serverbuildversion}" == "latest" ]; then
         remotebuildversion="latest" # Default latest, can be overridden by user
     else
-        remotebuildversion="${serverversion}"
+        remotebuildversion="${serverbuildversion}"
     fi
     remotebuildfilename="spigot-${remotebuildversion}.jar"
 

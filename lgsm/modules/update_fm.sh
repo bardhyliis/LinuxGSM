@@ -51,12 +51,12 @@ fn_update_remotebuild() {
         | sed 's|^\./||; s|/$||' \
         | sort -t '-' -k1,1nr)
 
-    if [ "${serverversion}" = "latest" ]; then
+    if [ "${serverbuildversion}" = "latest" ]; then
         # Pick the first folder as the latest
         remotebuildversion=$(echo "$artifact_folders" | head -n 1)
         buildnumber=$(echo "$remotebuildversion" | cut -d'-' -f1)
     else
-        buildnumber="${serverversion}"
+        buildnumber="${serverbuildversion}"
         # Find the folder starting with the requested build number
         remotebuildversion=$(echo "$artifact_folders" | grep "^${buildnumber}-" | head -n 1)
     fi

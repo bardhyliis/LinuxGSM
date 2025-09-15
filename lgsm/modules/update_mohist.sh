@@ -43,7 +43,7 @@ fn_update_localbuild() {
 fn_update_remotebuild() {
     manifest=$(curl -s "https://api.mohistmc.com/project/mohist/versions")
 
-    if [ "${serverversion}" == "latest" ]; then
+    if [ "${serverbuildversion}" == "latest" ]; then
         # Sort all available versions semantically (highest first)
         for ver in $(echo "${manifest}" | jq -r '.[].name' | sort -Vr); do
             # Check if this version has builds, if not skip to the previous latest.
@@ -63,22 +63,22 @@ fn_update_remotebuild() {
 
     else
         # Validate requested version exists
-        exists=$(echo "${manifest}" | jq -r --arg ver "${serverversion}" '.[] | select(.name==$ver) | .name')
+        exists=$(echo "${manifest}" | jq -r --arg ver "${serverbuildversion}" '.[] | select(.name==$ver) | .name')
         if [ -z "${exists}" ]; then
-            fn_print_fail "Requested version ${serverversion} does not exist"
+            fn_print_fail "Requested version ${serverbuildversion} does not exist"
             core_exit.sh
         fi
 
         # Check builds for requested version
-        build_manifest=$(curl -s "https://api.mohistmc.com/project/mohist/${serverversion}/builds")
+        build_manifest=$(curl -s "https://api.mohistmc.com/project/mohist/${serverbuildversion}/builds")
         build_count=$(echo "${build_manifest}" | jq '. | length')
 
         if [ "${build_count}" -eq 0 ]; then
-            fn_print_fail "Requested version ${serverversion} has no builds available"
+            fn_print_fail "Requested version ${serverbuildversion} has no builds available"
             core_exit.sh
         fi
 
-        remotebuildversion="${serverversion}"
+        remotebuildversion="${serverbuildversion}"
     fi
 
     remotebuildfilename="mohist-${remotebuildversion}.jar"
