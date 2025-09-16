@@ -816,6 +816,11 @@ elif [ "${shortname}" == "forge" ]; then
 	fn_default_config_remote
 	fn_set_config_vars
 	fn_list_config_locations
+elif [ "${shortname}" == "ng" ]; then
+	array_configs+=(ServerSettings.ini)
+	fn_default_config_remote
+	fn_set_config_vars
+	fn_list_config_locations
 elif [ "${shortname}" == "fm" ]; then
 	array_configs+=(server.cfg)
 	fn_default_config_remote

@@ -1671,6 +1671,26 @@ fn_info_game_ohd() {
 	rconpassword="${rconpassword:-"NOT SET"}"
 }
 
+# Config Type: ini
+# Parameters: true
+# Comment: ; or #
+# Example: ServerName=SERVERNAME
+# Filetype: ini
+fn_info_game_nightingale() {
+	if [ -f "${servercfgfullpath}" ]; then
+		fn_info_game_ini servername "ServerName"
+		fn_info_game_ini serverpassword "Password"
+		fn_info_game_ini adminpassword "AdminPassword"
+		fn_info_game_ini motd "MOTD"
+		fn_info_game_ini cheatsenabled "bEnableCheats"
+	fi
+	servername="${servername:-"NOT SET"}"
+	serverpassword="${serverpassword:-"NOT SET"}"
+	adminpassword="${adminpassword:-"NOT SET"}"
+	motd="${motd:-"NOT SET"}"
+	cheatsenabled="${cheatsenabled:-"false"}"
+}
+
 # Config Type: json
 # Parameters: false
 # Comment: // or /* */
@@ -2482,6 +2502,8 @@ elif [ "${shortname}" == "cod2" ]; then
 	fn_info_game_cod2
 elif [ "${shortname}" == "cod4" ]; then
 	fn_info_game_cod4
+elif [ "${shortname}" == "ng" ]; then
+	fn_info_game_nightingale
 elif [ "${shortname}" == "fm" ]; then
 	fn_info_game_fm
 elif [ "${shortname}" == "rm" ]; then
