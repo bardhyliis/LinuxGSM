@@ -91,7 +91,7 @@ fn_start_tmux() {
 		cd "${executabledir}" || exit
 	fi
 
-	fn_enforce_playerslot
+	# fn_enforce_playerslot
 	
 	tmux -L "${socketname}" new-session -d -x "${sessionwidth}" -y "${sessionheight}" -s "${sessionname}" "${preexecutable} ${executable} ${startparameters}" 2> "${lgsmlogdir}/.${selfname}-tmux-error.tmp"
 
