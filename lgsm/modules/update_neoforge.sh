@@ -43,39 +43,62 @@ fn_update_localbuild() {
 }
 
 fn_update_remotebuild() {
-	apiurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml"
+    apiurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml"
 
-	# Determine version to install
-	if [ "${serverbuildversion}" == "latest" ]; then
-		# Fetch latest release version
-		remotebuildmcversion=$(curl -s "${apiurl}" | xmllint --xpath "string(//metadata/versioning/release)" -)
-	else
-		# Use the user-specified version
-		remotebuildmcversion="${serverbuildversion}"
-	fi
+    # 1. Download metadata
+    #    We use curl -s to get the raw XML
+    metadata=$(curl -s "${apiurl}")
 
-	# Set build info
-	remotebuildfilename="neoforge-${remotebuildmcversion}-installer.jar"
-	remotebuildurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/${remotebuildmcversion}/${remotebuildfilename}"
-	remotebuildversion="${remotebuildmcversion}"
+    if [ "${serverbuildversion}" == "latest" ]; then
+        # SMART MODE: Ignore the <release> tag, scan the list.
+        fn_print_dots "Scanning version list for stability..."
+        
+        # Extract versions using sed (works better than grep -P on some minimal distros)
+        # This regex looks for <version>CONTENT</version> and extracts CONTENT
+        all_versions=$(echo "$metadata" | sed -n 's/.*<version>\(.*\)<\/version>.*/\1/p')
 
-	if [ "${firstcommandname}" != "INSTALL" ]; then
-		fn_print_dots "Checking remote build: ${remotelocation}"
-		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
-			fn_print_fail "Checking remote build: ${remotelocation}"
-			fn_script_log_fail "Checking remote build"
-			core_exit.sh
-		else
-			fn_print_ok "Checking remote build: ${remotelocation}"
-			fn_script_log_pass "Checking remote build"
-		fi
-	else
-		if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
-			fn_print_failure "Unable to get remote build"
-			fn_script_log_fail "Unable to get remote build"
-			core_exit.sh
-		fi
-	fi
+        # Filter: Remove 'alpha' and 'snapshot'. Keep 'beta' (NeoForge betas are usually fine).
+		stable_candidate=$(echo "$all_versions" | grep -ivE "snapshot|alpha|beta" | sort -V | tail -n 1)
+        # stable_candidate=$(echo "$all_versions" | grep -ivE "snapshot|alpha" | sort -V | tail -n 1)
+
+        if [ -n "$stable_candidate" ]; then
+            # Found a stable version (e.g., 21.11.38-beta)
+            remotebuildmcversion="$stable_candidate"
+        else
+            # Fallback: If only alphas exist (e.g. immediately after a new MC release)
+            fn_print_warn "No stable build found. Using latest Alpha."
+            remotebuildmcversion=$(echo "$all_versions" | sort -V | tail -n 1)
+        fi
+        
+    else
+        # MANUAL MODE: User requested a specific version (e.g. "26.1.0.0-alpha.12+snapshot-7")
+        remotebuildmcversion="${serverbuildversion}"
+    fi
+
+    # Set build info
+    remotebuildfilename="neoforge-${remotebuildmcversion}-installer.jar"
+    remotebuildurl="https://maven.neoforged.net/releases/net/neoforged/neoforge/${remotebuildmcversion}/${remotebuildfilename}"
+    remotebuildversion="${remotebuildmcversion}"
+
+    # Validation Checks
+    if [ "${firstcommandname}" != "INSTALL" ]; then
+        fn_print_dots "Checking remote build: ${remotebuildversion}"
+        # Basic check to ensure the version string isn't empty or null
+        if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+            fn_print_fail "Checking remote build: ${remotebuildversion}"
+            fn_script_log_fail "Checking remote build"
+            core_exit.sh
+        else
+            fn_print_ok "Checking remote build: ${remotebuildversion}"
+            fn_script_log_pass "Checking remote build"
+        fi
+    else
+        if [ -z "${remotebuildversion}" ] || [ "${remotebuildversion}" == "null" ]; then
+            fn_print_failure "Unable to get remote build"
+            fn_script_log_fail "Unable to get remote build"
+            core_exit.sh
+        fi
+    fi
 }
 
 fn_update_compare() {
